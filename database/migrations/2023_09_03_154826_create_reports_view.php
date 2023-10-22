@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::connection('mysql_gomezapp')->statement("
+        DB::statement("
     CREATE VIEW reports AS
     SELECT 
         reportes.id AS id,
@@ -73,6 +73,6 @@ return new class extends Migration
      */
     public function down()
     {
-        DB::connection('mysql_gomezapp')->statement('DROP VIEW IF EXISTS reports');
+        DB::statement('DROP VIEW IF EXISTS reports');
     }
 };

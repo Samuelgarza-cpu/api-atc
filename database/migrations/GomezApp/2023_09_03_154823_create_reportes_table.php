@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql_gomezapp')->create('reportes', function (Blueprint $table) {
+        Schema::create('reportes', function (Blueprint $table) {
             $table->id();
             $table->date('fecha_reporte')->nullable();
             $table->string('img_reporte')->nullable();
@@ -47,6 +47,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql_gomezapp')->dropIfExists('reportes');
+        Schema::dropIfExists('reportes');
     }
 };

@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql_gomezapp')->create('estatus', function (Blueprint $table) {
+        Schema::create('estatus', function (Blueprint $table) {
             $table->id();
             $table->string('estatus');
            
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql_gomezapp')->dropIfExists('estatus');
+        Schema::dropIfExists('estatus');
     }
 };

@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql_gomezapp')->create('asuntos', function (Blueprint $table) {
+        Schema::create('asuntos', function (Blueprint $table) {
             $table->id();
             $table->string('asunto');
             $table->string('bg_circle');
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql_gomezapp')->dropIfExists('asuntos');
+        Schema::dropIfExists('asuntos');
     }
 };

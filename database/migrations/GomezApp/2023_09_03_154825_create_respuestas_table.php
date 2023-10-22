@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql_gomezapp')->create('reportes_respuestas', function (Blueprint $table) {
+        Schema::create('reportes_respuestas', function (Blueprint $table) {
 
             $table->foreignId('id_reporte')->constrained('reportes', 'id');
             $table->string('respuesta'); //  QUEJA, SOSPECHA, DEMANDA ETC
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql_gomezapp')->dropIfExists('reportes_respuestas');
+        Schema::dropIfExists('reportes_respuestas');
     }
 };
