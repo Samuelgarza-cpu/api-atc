@@ -161,6 +161,9 @@ class UserController extends Controller
       try {
          $token = $request->bearerToken();
 
+         $existUser = User::where("email", $request->email)->first();
+         
+
          if ($request->role_id <= 2) {
 
 
