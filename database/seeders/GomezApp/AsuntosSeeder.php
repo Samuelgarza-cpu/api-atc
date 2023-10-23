@@ -18,54 +18,54 @@ class AsuntosSeeder extends Seeder
     {
         DB::connection('mysql_gomezapp')->table('asuntos')->insert([
             'asunto' => 'BACHEO',
-            'bg_circle' => 'green',
+            'bg_circle' => 'blue',
             'bg_card' => '#1F2227',
-            'icono' => '',
+            'icono' => 'gomezapp/icons/btbacheo.png',
             'letter_black' => 1,
             'active' => 1,
             'created_at' => now(),
         ]);
         DB::connection('mysql_gomezapp')->table('asuntos')->insert([
             'asunto' => 'BASURA',
-            'bg_circle' => 'yellow',
+            'bg_circle' => 'red',
             'bg_card' => '#1F2227',
-            'icono' => '',
+            'icono' => 'gomezapp/icons/btbasura.png',
             'letter_black' => 1,
             'active' => 1,
             'created_at' => now(),
         ]);
         DB::connection('mysql_gomezapp')->table('asuntos')->insert([
             'asunto' => 'ECOLOGIA',
-            'bg_circle' => 'coral',
+            'bg_circle' => 'green',
             'bg_card' => '#1F2227',
-            'icono' => '',
+            'icono' => 'gomezapp/icons/btecologia.png',
             'letter_black' => 1,
             'active' => 1,
             'created_at' => now(),
         ]);
         DB::connection('mysql_gomezapp')->table('asuntos')->insert([
             'asunto' => 'ALUMBRADO PUBLICO',
-            'bg_circle' => 'red',
+            'bg_circle' => 'gold',
             'bg_card' => '#1F2227',
-            'icono' => '',
+            'icono' => 'gomezapp/icons/btalumbrado.png',
             'letter_black' => 1,
             'active' => 1,
             'created_at' => now(),
         ]);
         DB::connection('mysql_gomezapp')->table('asuntos')->insert([
             'asunto' => 'VIGILANCIA',
-            'bg_circle' => 'blue',
+            'bg_circle' => 'violet',
             'bg_card' => '#1F2227',
-            'icono' => '',
+            'icono' => 'gomezapp/icons/btvigilancia.png',
             'letter_black' => 1,
             'active' => 1,
             'created_at' => now(),
         ]);
         DB::connection('mysql_gomezapp')->table('asuntos')->insert([
             'asunto' => 'OTRO',
-            'bg_circle' => 'pink',
+            'bg_circle' => 'grey',
             'bg_card' => '#1F2227',
-            'icono' => '',
+            'icono' => 'gomezapp/icons/btotros.png',
             'letter_black' => 1,
             'active' => 1,
             'created_at' => now(),
