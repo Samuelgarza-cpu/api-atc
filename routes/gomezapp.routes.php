@@ -8,6 +8,7 @@ use App\Http\Controllers\GomezApp\ReportController;
 use App\Http\Controllers\GomezApp\TipoReporteController;
 use App\Http\Controllers\GomezApp\ServiceController;
 use App\Http\Controllers\GomezApp\AsuntosDepController;
+use App\Http\Controllers\GomezApp\appController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -86,6 +87,10 @@ Route::controller(OrigenController::class)->group(function () {
 Route::controller(AsuntosDepController::class)->group(function () {
    Route::get('/asuntosdep', 'index');
    Route::get('/asuntosdep/{id}', 'show');
+});
+
+Route::controller(appController::class)->group(function () {
+   Route::get('/asuntos', 'index');
 });
 
 
