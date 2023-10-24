@@ -56,7 +56,7 @@ Route::controller(DepartmentController::class)->group(function () {
 
 Route::controller(ReportController::class)->group(function () {
    Route::get('/reports', 'index');
-   Route::delete('/reports/{id}', 'destroy');
+   Route::post('/reports/{id}', 'destroy');
    Route::get('/reportsview', 'reportsview');
    Route::get('/icards', 'getCards');
    Route::post('/reports', 'saveReport');
