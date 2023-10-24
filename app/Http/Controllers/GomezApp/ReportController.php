@@ -238,7 +238,7 @@ class ReportController extends Controller
     public function saveResponse(Request $request, Response $response)
     {
         $response->data = ObjResponse::DefaultResponse();
-        $id = $request->idReport;
+        $id = (int)$request->idReport;
         try {
             if ($request->estatus == 3 || $request->estatus == 4) {
                 $responseR = new ResponseR;

@@ -56,12 +56,12 @@ Route::controller(DepartmentController::class)->group(function () {
 
 Route::controller(ReportController::class)->group(function () {
    Route::get('/reports', 'index');
-   Route::post('/reports/{id}', 'destroy');
+   Route::post('/reports/id/{id}', 'destroy');
    Route::get('/reportsview', 'reportsview');
    Route::get('/icards', 'getCards');
    Route::post('/reports', 'saveReport');
    Route::post('/reports/response', 'saveResponse');
-   Route::delete('/reports/response/{id}', 'deleteResponse');
+   Route::post('/reports/response/{id}', 'deleteResponse');
    Route::get('/reports/user/{id_user}', 'reportsByUser');
    Route::get('/reports/{id}', 'reportsById');
 });
