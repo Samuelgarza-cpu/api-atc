@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\GomezApp;
+namespace App\Http\Controllers;
 
 
 use App\Http\Controllers\Controller;
 use App\Models\ObjResponse;
-use App\Models\GomezApp\User;
-
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+
 
 class UserController extends Controller
 {
@@ -24,27 +25,31 @@ class UserController extends Controller
     */
    public function login(Request $request, Response $response)
    {
+      try {
+         $field = 'email';
+         $value = $request->email;
 
-      $field = 'email';
-      $value = $request->email;
+         $request->validate([
+            $field => 'required',
+            'password' => 'required'
+         ]);
+         $user = User::where("$field", "$value")->first();
 
-      $request->validate([
-         $field => 'required',
-         'password' => 'required'
-      ]);
-      $user = User::where("$field", "$value")->first();
+         if (!$user || !Hash::check($request->password, $user->password)) {
+            $response->data = ObjResponse::DefaultResponse();
+            $response->data["message"] = 'Datos Incorrectos';
+            return response()->json($response, $response->data["status_code"]);
+         } else {
+            $token = $user->createToken($request->email)->plainTextToken;
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'peticion satisfactoria | usuario logeado.';
+            $response->data["result"] = $user;
+            $response->data["result"]["token"] = $token;
+            return response()->json($response, $response->data["status_code"]);
+         }
+      } catch (\Exception $error) {
 
-      if (!$user || !Hash::check($request->password, $user->password)) {
-         $response->data = ObjResponse::DefaultResponse();
-         $response->data["message"] = 'Datos Incorrectos';
-         return response()->json($response, $response->data["status_code"]);
-      } else {
-         //  $token = $user->createToken($user->email, ['user'])->plainTextToken;
-         $response->data = ObjResponse::CorrectResponse();
-         $response->data["message"] = 'peticion satisfactoria | usuario logeado.';
-         //  $response->data["result"]["token"] = $token;
-         $response->data["result"] = $user;
-         return response()->json($response, $response->data["status_code"]);
+         return $error->getMessage();
       }
    }
 
@@ -56,7 +61,10 @@ class UserController extends Controller
    public function logout(Response $response, $id,)
    {
       try {
-         DB::connection('mysql_gomezapp')->table('personal_access_tokens')->where('tokenable_id', $id)->delete();
+
+
+         auth()->user()->tokens()->delete();
+         // DB::connection('mysql_gomezapp')->table('personal_access_tokens')->where('tokenable_id', $id)->delete();
 
          $response->data = ObjResponse::CorrectResponse();
          $response->data["message"] = 'peticion satisfactoria | sesión cerrada.';
@@ -162,7 +170,7 @@ class UserController extends Controller
          $token = $request->bearerToken();
 
          $existUser = User::where("email", $request->email)->first();
-         
+
 
          if ($request->role_id <= 2) {
 
