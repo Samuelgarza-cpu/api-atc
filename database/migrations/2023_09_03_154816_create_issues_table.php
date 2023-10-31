@@ -17,9 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('asunto');
             $table->string('bg_circle');
-            $table->string('bg_card');
-            $table->string('icono');
-            $table->boolean('letter_black');
+            $table->string('bg_card')->default('#1F2227');
+            $table->string('icono')->default('gomezapp/SIN-IMAGEN.jpg');
+            $table->boolean('app')->default(false);
+            $table->boolean('letter_black')->default(true);
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->dateTime('deleted_at')->nullable();

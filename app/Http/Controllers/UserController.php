@@ -122,7 +122,9 @@ class UserController extends Controller
       $response->data = ObjResponse::DefaultResponse();
       try {
 
-         $list = User::where('active', true)->get();
+         $list = User::where('users.active', true)
+            ->join('roles', 'role_id', '=', 'roles.id')
+            ->get();
 
          $response->data = ObjResponse::CorrectResponse();
          $response->data["message"] = 'peticion satisfactoria | lista de usuarios.';
@@ -213,7 +215,9 @@ class UserController extends Controller
       $response->data = ObjResponse::DefaultResponse();
       try {
          // echo "el id: $request->id";
-         $user = User::where('users.id', $request->id)->first();
+         $user = User::where('users.id', $request->id)
+            ->join('roles', 'role_id', '=', 'roles.id')
+            ->first();
 
          $response->data = ObjResponse::CorrectResponse();
          $response->data["message"] = 'peticion satisfactoria | usuario encontrado.';

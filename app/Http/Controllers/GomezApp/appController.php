@@ -16,7 +16,9 @@ class appController extends Controller
      */
     public function index(Response $response)
     {
-        $response = Asuntos::all();
+        $response = Asuntos::where('app', 1)
+            ->where('active', 1)
+            ->get();
         return response()->json($response);
     }
 
@@ -38,7 +40,7 @@ class appController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return response()->json($request);
     }
 
     /**
