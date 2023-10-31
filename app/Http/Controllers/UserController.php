@@ -165,22 +165,21 @@ class UserController extends Controller
     */
    public function create(Request $request, Response $response)
    {
+
+
       $response->data = ObjResponse::DefaultResponse();
       try {
-         $token = $request->bearerToken();
+         // $token = $request->bearerToken();
 
          $existUser = User::where("email", $request->email)->first();
 
-
-         if ($request->role_id <= 2) {
-
-
-            $new_user = new User;
-            $new_user->email =  $request->email;
-            $new_user->password =  Hash::make($request->password);
-            $new_user->role_id =  $request->role_id;
-            $new_user->save();
+         if ($existUser != "") {
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'peticion satisfactoria';
+            $response->data["alert_text"] = "Correo ya registrado, intenta con otro";
+            $response->data['status_code'] = 403;
          } else {
+
             $new_user = new User;
 
             $new_user->email = $request->email;
@@ -191,10 +190,11 @@ class UserController extends Controller
             $new_user->paternal_last_name = $request->paternal_last_name;
             $new_user->maternal_last_name = $request->maternal_last_name;
             $new_user->save();
+
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'peticion satisfactoria | usuario registrado.';
+            $response->data["alert_text"] = "Usuario registrado";
          }
-         $response->data = ObjResponse::CorrectResponse();
-         $response->data["message"] = 'peticion satisfactoria | usuario registrado.';
-         $response->data["alert_text"] = "Usuario registrado";
       } catch (\Exception $ex) {
          $response->data = ObjResponse::CatchResponse($ex->getMessage());
       }
@@ -235,29 +235,22 @@ class UserController extends Controller
    {
       $response->data = ObjResponse::DefaultResponse();
       try {
-         // echo "el id: $request->id";
-         if ($request->role_id < 2) {
-            $user = User::find($request->id)
-               ->update([
 
-                  'email' => $request->email,
-                  'password' => Hash::make($request->password),
-                  'role_id' => $request->role_id,
 
-               ]);
-         } else {
-            $user = User::find($request->id)
-               ->update([
+         $user = User::find($request->id)
+            ->update([
 
-                  'email' => $request->email,
-                  'password' => Hash::make($request->password),
-                  'role_id' => $request->role_id,
-                  'phone' => $request->phone,
-                  'name' => $request->name,
-                  'paternal_last_name' => $request->paternal_last_name,
-                  'maternal_last_name' => $request->maternal_last_name,
-               ]);
-         }
+               'email' => $request->email,
+               'password' => Hash::make($request->password),
+               'role_id' => $request->role_id,
+               'phone' => $request->phone,
+               'name' => $request->name,
+               'paternal_last_name' => $request->paternal_last_name,
+               'maternal_last_name' => $request->maternal_last_name,
+               'sexo' => $request->sexo,
+               'curp' => $request->curp,
+            ]);
+
 
          $response->data = ObjResponse::CorrectResponse();
          $response->data["message"] = 'peticion satisfactoria | usuario actualizado.';
@@ -292,21 +285,4 @@ class UserController extends Controller
       }
       return response()->json($response, $response->data["status_code"]);
    }
-
-
-
-   // private function validateAvailability(string $prop, int $value, string $message_error)
-   // {
-   //     $response->data = ObjResponse::DefaultResponse();
-   //     data_set($response,'alert_text',$message_error);
-   //     try {
-   //         $exist = User::where($prop, $value)->count();
-
-   //         if ($exist > 0) $response = ObjResponse::CorrectResponse();
-
-   //     } catch (\Exception $ex) {
-   //         $response = ObjResponse::CatchResponse($ex->getMessage());
-   //     }
-   //     return response()->json($response,$response["status_code"]);
-   // }
 }

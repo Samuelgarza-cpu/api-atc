@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ObjResponse extends Model
 {
-    public static function CorrectResponse() {
+    public static function CorrectResponse()
+    {
         $response = [
             "status_code" => 200,
             "status" => true,
@@ -16,12 +17,13 @@ class ObjResponse extends Model
             "alert_title" => "EXITO!",
             "alert_text" => "",
             "result" => [],
-            "toast"=> true, 
+            "toast" => true,
         ];
         return $response;
     }
 
-    public static function DefaultResponse() {
+    public static function DefaultResponse()
+    {
         $response = [
             "status_code" => 500,
             "status" => false,
@@ -30,14 +32,14 @@ class ObjResponse extends Model
             "alert_title" => "Lo sentimos.",
             "alert_text" => "Hay un problema con el servidor. Intenete más tarde.",
             "result" => [],
-            "toast"=> false, 
+            "toast" => false,
         ];
         return $response;
     }
 
-    public static function CatchResponse($message) {
-        $message ?? "Ocurrio un error, verifica tus datos.";
-        error_log($message);
+    public static function CatchResponse($message)
+    {
+
         $response = [
             "status_code" => 400,
             "status" => false,
@@ -46,7 +48,7 @@ class ObjResponse extends Model
             "alert_title" => "Oppss!",
             "alert_text" => "Algo salio mal, verifica tus datos.",
             "result" => [],
-            "toast"=> false, 
+            "toast" => false,
         ];
         return $response;
     }

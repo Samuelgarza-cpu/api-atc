@@ -8,7 +8,7 @@ use App\Models\GomezApp\ReportView;
 use App\Models\GomezApp\InfoCards;
 use App\Models\GomezApp\ReportAsuntos;
 use App\Models\GomezApp\ResponseR;
-use App\Models\GomezApp\User;
+use App\Models\User;
 use App\Models\ObjResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
