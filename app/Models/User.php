@@ -26,7 +26,8 @@ class User extends Authenticatable
         'paternal_last_name',
         'maternal_last_name',
         'curp',
-        'phone'
+        'phone',
+        'active'
     ];
 
     /**

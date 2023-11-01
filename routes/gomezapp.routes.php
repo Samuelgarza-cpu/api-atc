@@ -31,8 +31,8 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::get('/users', 'index');
       Route::get('/users/selectIndex', 'selectIndex');
       Route::get('/users/{id}', 'show');
-      Route::put('/users/{id?}', 'update');
-      Route::delete('/users/{id}', 'destroy');
+      Route::post('/users/update/{id?}', 'update');
+      Route::post('/users/destroy/{id}', 'destroy');
    });
 
    Route::controller(RoleController::class)->group(function () {
@@ -40,8 +40,8 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::get('/roles/selectIndex', 'selectIndex');
       Route::get('/roles/{id}', 'show');
       Route::post('/roles', 'create');
-      Route::put('/roles/{id?}', 'update');
-      Route::delete('/roles/{id}', 'destroy');
+      Route::post('/roles/update/{id?}', 'update');
+      Route::post('/roles/destroy/{id}', 'destroy');
    });
 
    Route::controller(DepartmentController::class)->group(function () {
@@ -49,8 +49,8 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::get('/departments/selectIndex', 'selectIndex');
       Route::get('/departments/{id}', 'show');
       Route::post('/departments', 'create');
-      Route::put('/departments/{id?}', 'update');
-      Route::delete('/departments/{id}', 'destroy');
+      Route::post('/departments/update/{id?}', 'update');
+      Route::post('/departments/destroy/{id}', 'destroy');
    });
 
 

@@ -123,7 +123,7 @@ class UserController extends Controller
       try {
 
          $list = User::where('users.active', true)
-            ->join('roles', 'role_id', '=', 'roles.id')
+            // ->join('roles', 'role_id', '=', 'roles.id')
             ->get();
 
          $response->data = ObjResponse::CorrectResponse();
@@ -273,6 +273,7 @@ class UserController extends Controller
     */
    public function destroy(int $id, Response $response)
    {
+
       $response->data = ObjResponse::DefaultResponse();
       try {
          $destroy = User::find($id);
