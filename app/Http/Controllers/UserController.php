@@ -191,6 +191,8 @@ class UserController extends Controller
             $new_user->name = $request->name;
             $new_user->paternal_last_name = $request->paternal_last_name;
             $new_user->maternal_last_name = $request->maternal_last_name;
+            $new_user->curp = $request->curp == "" ? "" : $request->curp;
+            $new_user->sexo = $request->sexo == "" ? "" : $request->sexo;
             $new_user->save();
 
             $response->data = ObjResponse::CorrectResponse();
@@ -210,13 +212,13 @@ class UserController extends Controller
     * @param  \Illuminate\Http\Request $request
     * @return \Illuminate\Http\Response $response
     */
-   public function show(Request $request, Response $response)
+   public function show(Request $request, Response $response, $id)
    {
       $response->data = ObjResponse::DefaultResponse();
       try {
          // echo "el id: $request->id";
-         $user = User::where('users.id', $request->id)
-            ->join('roles', 'role_id', '=', 'roles.id')
+         $user = User::where('users.id', $id)
+            // ->join('roles', 'role_id', '=', 'roles.id')
             ->first();
 
          $response->data = ObjResponse::CorrectResponse();
@@ -245,7 +247,6 @@ class UserController extends Controller
             ->update([
 
                'email' => $request->email,
-               'password' => Hash::make($request->password),
                'role_id' => $request->role_id,
                'phone' => $request->phone,
                'name' => $request->name,
@@ -253,6 +254,7 @@ class UserController extends Controller
                'maternal_last_name' => $request->maternal_last_name,
                'sexo' => $request->sexo,
                'curp' => $request->curp,
+               'updated' => date('Y-m-d H:i:s')
             ]);
 
 
@@ -285,6 +287,26 @@ class UserController extends Controller
          $response->data = ObjResponse::CorrectResponse();
          $response->data["message"] = 'peticion satisfactoria | usuario eliminado.';
          $response->data["alert_text"] = "Usuario eliminado";
+      } catch (\Exception $ex) {
+         $response->data = ObjResponse::CatchResponse($ex->getMessage());
+      }
+      return response()->json($response, $response->data["status_code"]);
+   }
+
+   public function updatePassword(Response $response, Request $request, $id)
+   {
+
+      $response->data = ObjResponse::DefaultResponse();
+      try {
+         $updatePass = User::find($id);
+
+         $updatePass->password = Hash::make($request->password);;
+         $updatePass->updated_at = date('Y-m-d H:i:s');
+         $updatePass->save();
+
+         $response->data = ObjResponse::CorrectResponse();
+         $response->data["message"] = 'peticion satisfactoria | usuario eliminado.';
+         $response->data["alert_text"] = "Contraseña Actualizada";
       } catch (\Exception $ex) {
          $response->data = ObjResponse::CatchResponse($ex->getMessage());
       }
