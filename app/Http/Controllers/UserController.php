@@ -293,8 +293,10 @@ class UserController extends Controller
       return response()->json($response, $response->data["status_code"]);
    }
 
-   public function updatePassword(Response $response, Request $request, $id)
+   public function updatePassword(Request $request, Response $response, $id)
    {
+
+      // return $request->password;
 
       $response->data = ObjResponse::DefaultResponse();
       try {
@@ -305,7 +307,7 @@ class UserController extends Controller
          $updatePass->save();
 
          $response->data = ObjResponse::CorrectResponse();
-         $response->data["message"] = 'peticion satisfactoria | usuario eliminado.';
+         $response->data["message"] = 'peticion satisfactoria | Contraseña Actualizada';
          $response->data["alert_text"] = "Contraseña Actualizada";
       } catch (\Exception $ex) {
          $response->data = ObjResponse::CatchResponse($ex->getMessage());
