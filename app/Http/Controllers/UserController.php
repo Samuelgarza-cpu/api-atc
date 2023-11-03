@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Controllers\Controller;
+use App\Mail\RecuperarContraseña;
 use App\Models\ObjResponse;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -11,18 +12,13 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 
 
 class UserController extends Controller
 {
 
-   /**
-    * Metodo para validar credenciales e
-    * inicar sesión
-    * @param Request $request
-    * @return \Illuminate\Http\Response $response
-    */
    public function login(Request $request, Response $response)
    {
       try {
@@ -43,6 +39,7 @@ class UserController extends Controller
             $token = $user->createToken($request->email)->plainTextToken;
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | usuario logeado.';
+            $response->data["alert_text"] = 'BIENVENIDO';
             $response->data["result"] = $user;
             $response->data["result"]["token"] = $token;
             return response()->json($response, $response->data["status_code"]);
@@ -52,12 +49,53 @@ class UserController extends Controller
          return $error->getMessage();
       }
    }
+   public function recovery(Request $request, Response $response)
+   {
+      try {
 
-   /**
-    * Metodo para cerrar sesión.
-    * @param int $id
-    * @return \Illuminate\Http\Response $response
-    */
+         $email = $request->email;
+
+         $request->validate([
+            'email' => 'required'
+         ]);
+         $user = User::where("email", $email)->first();
+
+         if (!$user) {
+            $response->data = ObjResponse::DefaultResponse();
+            $response->data["message"] = 'Correo NO encontrado';
+            $response->data["alert_text"] = 'Correo NO encontrado';
+            return response()->json($response, $response->data["status_code"]);
+         } else {
+
+            $longitud_cadena = 8;
+            $caracteres_alfabeticos = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ%$&?¡';
+            $caracter_alfabetico = $caracteres_alfabeticos[mt_rand(0, strlen($caracteres_alfabeticos) - 1)];
+            $numeros = mt_rand(pow(10, $longitud_cadena - 2), pow(10, $longitud_cadena - 1) - 1);
+            $cadena_aleatoria = $caracter_alfabetico . $numeros;
+            $dataOut = [
+               "email" =>  $email,
+               "password" => $cadena_aleatoria,
+
+            ];
+
+            $updatePass = User::where('email', $email)->first();
+            $updatePass->password = Hash::make($cadena_aleatoria);;
+            $updatePass->updated_at = date('Y-m-d H:i:s');
+            $updatePass->save();
+
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'peticion satisfactoria ';
+            $response->data["alert_text"] = 'Contraseña enviada correctamente ';
+            $envio = Mail::to($email)->send(new RecuperarContraseña($dataOut));
+            $response->data["result"] = $cadena_aleatoria;
+
+            return response()->json($response, $response->data["status_code"]);
+         }
+      } catch (\Exception $error) {
+
+         return $error->getMessage();
+      }
+   }
    public function logout(Response $response, $id,)
    {
       try {
@@ -75,12 +113,6 @@ class UserController extends Controller
       return response()->json($response, $response->data["status_code"]);
    }
 
-   /**
-    * Reegistrarse como ciudadano desde la app.
-    *
-    * @param  \Illuminate\Http\Request $request
-    * @return \Illuminate\Http\Response $response
-    */
    public function signup(Request $request, Response $response)
    {
 
@@ -110,13 +142,6 @@ class UserController extends Controller
       return response()->json($response, $response->data["status_code"]);
    }
 
-
-   /**
-    * Mostrar lista de usuarios activos del
-    * uniendo con roles.
-    *
-    * @return \Illuminate\Http\Response $response
-    */
    public function index(Response $response)
    {
       $response->data = ObjResponse::DefaultResponse();
@@ -136,11 +161,6 @@ class UserController extends Controller
       return response()->json($response, $response->data["status_code"]);
    }
 
-   /**
-    * Mostrar listado para un selector.
-    *
-    * @return \Illuminate\Http\Response $response
-    */
    public function selectIndex(Response $response)
    {
       $response->data = ObjResponse::DefaultResponse();
@@ -159,12 +179,6 @@ class UserController extends Controller
       return response()->json($response, $response->data["status_code"]);
    }
 
-   /**
-    * Crear usuario.
-    *
-    * @param  \Illuminate\Http\Request $request
-    * @return \Illuminate\Http\Response $response
-    */
    public function create(Request $request, Response $response)
    {
 
@@ -205,13 +219,6 @@ class UserController extends Controller
       return response()->json($response, $response->data["status_code"]);
    }
 
-   /**
-    * Mostrar usuario.
-    *
-    * @param   int $id
-    * @param  \Illuminate\Http\Request $request
-    * @return \Illuminate\Http\Response $response
-    */
    public function show(Request $request, Response $response, $id)
    {
       $response->data = ObjResponse::DefaultResponse();
@@ -231,12 +238,6 @@ class UserController extends Controller
       return response()->json($response, $response->data["status_code"]);
    }
 
-   /**
-    * Actualizar usuario.
-    *
-    * @param  \Illuminate\Http\Request $request
-    * @return \Illuminate\Http\Response $response
-    */
    public function update(Request $request, Response $response)
    {
       $response->data = ObjResponse::DefaultResponse();
@@ -267,12 +268,6 @@ class UserController extends Controller
       return response()->json($response, $response->data["status_code"]);
    }
 
-   /**
-    * "Eliminar" (cambiar estado activo=false) usuario.
-    *
-    * @param  int $id
-    * @return \Illuminate\Http\Response $response
-    */
    public function destroy(int $id, Response $response)
    {
 
@@ -295,9 +290,6 @@ class UserController extends Controller
 
    public function updatePassword(Request $request, Response $response, $id)
    {
-
-      // return $request->password;
-
       $response->data = ObjResponse::DefaultResponse();
       try {
          $updatePass = User::find($id);
