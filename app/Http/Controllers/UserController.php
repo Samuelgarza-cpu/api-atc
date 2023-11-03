@@ -85,9 +85,9 @@ class UserController extends Controller
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria ';
-            $response->data["alert_text"] = 'Contraseña enviada correctamente ';
+            $response->data["alert_text"] = 'Contraseña enviada correctamente, revisar correo de 5 - 10 min ';
             $envio = Mail::to($email)->send(new RecuperarContraseña($dataOut));
-            $response->data["result"] = $cadena_aleatoria;
+            // $response->data["result"] = $cadena_aleatoria;
 
             return response()->json($response, $response->data["status_code"]);
          }
