@@ -30,7 +30,7 @@ class ObjResponse extends Model
             "message" => "no se logro completar la petcion.",
             "alert_icon" => "informative",
             "alert_title" => "Lo sentimos.",
-            "alert_text" => "Hay un problema con el servidor. Intenete más tarde.",
+            "alert_text" => "Hay un problema con el servidor. Intente más tarde.",
             "result" => [],
             "toast" => false,
         ];

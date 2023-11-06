@@ -36,7 +36,7 @@ class UserController extends Controller
          if (!$user || !Hash::check($request->password, $user->password)) {
             $response->data = ObjResponse::DefaultResponse();
             $response->data["message"] = 'Datos Incorrectos';
-            $response->data["alert_text"] = 'Datos Incorrectos o cuenta no Registrada';
+            $response->data["alert_text"] = 'Datos Incorrectos o Cuenta no Registrada';
             return response()->json($response, $response->data["status_code"]);
          } else {
             $token = $user->createToken($request->email)->plainTextToken;
@@ -190,7 +190,9 @@ class UserController extends Controller
       try {
          // $token = $request->bearerToken();
 
-         $existUser = User::where("email", $request->email)->first();
+         $existUser = User::where("email", $request->email)
+            ->where('active', true)
+            ->first();
 
          if ($existUser != "") {
             $response->data = ObjResponse::CorrectResponse();
