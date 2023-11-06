@@ -29,7 +29,9 @@ class UserController extends Controller
             $field => 'required',
             'password' => 'required'
          ]);
-         $user = User::where("$field", "$value")->first();
+         $user = User::where("$field", "$value")
+            ->where('active', true)
+            ->first();
 
          if (!$user || !Hash::check($request->password, $user->password)) {
             $response->data = ObjResponse::DefaultResponse();
