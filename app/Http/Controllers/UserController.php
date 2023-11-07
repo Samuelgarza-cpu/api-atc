@@ -62,7 +62,9 @@ class UserController extends Controller
          $request->validate([
             'email' => 'required'
          ]);
-         $user = User::where("email", $email)->first();
+         $user = User::where("email", $email)
+            ->where('active', true)
+            ->first();
 
          if (!$user) {
             $response->data = ObjResponse::DefaultResponse();
