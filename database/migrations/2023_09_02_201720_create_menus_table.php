@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
             $table->string('menu');
-            $table->string('caption')->default()->comment("disponible solo para los menus padres");
+            $table->string('caption')->nullable()->comment("disponible solo para los menus padres");
             $table->enum('type', ['group', 'item']);
             $table->integer('belongs_to');
             $table->string('url')->nullable()->comment("disponible solo para los menus hijos");

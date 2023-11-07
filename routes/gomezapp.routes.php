@@ -9,6 +9,7 @@ use App\Http\Controllers\GomezApp\TipoReporteController;
 use App\Http\Controllers\GomezApp\ServiceController;
 use App\Http\Controllers\GomezApp\AsuntosDepController;
 use App\Http\Controllers\GomezApp\appController;
+use App\Http\Controllers\GomezApp\MenuController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +27,19 @@ Route::post('/users/recovery', [UserController::class, 'recovery']);
 
 Route::middleware('auth:sanctum')->group(function () {
    // Route::get('/getUser/{token}', [UserController::class,'getUser']); //cerrar sesión (eliminar los tokens creados)
-   Route::post('/logout/{id}', [UserController::class, 'logout']); //cerrar sesión (eliminar los tokens creados)
+   Route::post('/logout', [UserController::class, 'logout']); //cerrar sesión (eliminar los tokens creados)
+
+   Route::controller(MenuController::class)->group(function () {
+      Route::get('/menus', 'index');
+      Route::get('/menus/selectIndex', 'selectIndex');
+      Route::get('/menus/{id}', 'show');
+      Route::post('/menus', 'create');
+      Route::post('/menus/update/{id?}', 'update');
+      Route::post('/menus/destroy/{id}', 'destroy');
+
+      Route::get('/menus/MenusByRole/{pages_read}', 'MenusByRole');
+      Route::post('/menus/getIdByUrl', 'getIdByUrl');
+   });
 
    Route::controller(UserController::class)->group(function () {
       Route::get('/users', 'index');

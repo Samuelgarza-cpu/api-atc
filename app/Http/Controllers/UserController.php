@@ -29,8 +29,9 @@ class UserController extends Controller
             $field => 'required',
             'password' => 'required'
          ]);
-         $user = User::where("$field", "$value")
-            ->where('active', true)
+         $user = User::where("users.$field", "$value")->where('users.active', true)
+            ->join("roles", "users.role_id", "=", "roles.id")
+            ->select("users.*", "roles.role", "roles.read")
             ->first();
 
          if (!$user || !Hash::check($request->password, $user->password)) {
@@ -99,7 +100,7 @@ class UserController extends Controller
          return $error->getMessage();
       }
    }
-   public function logout(Response $response, $id,)
+   public function logout(Response $response)
    {
       try {
 
@@ -150,8 +151,10 @@ class UserController extends Controller
       $response->data = ObjResponse::DefaultResponse();
       try {
 
+         // $list = User::where('users.active', true)->where("role_id", ">=", $role_id)
          $list = User::where('users.active', true)
-            // ->join('roles', 'role_id', '=', 'roles.id')
+            ->join('roles', 'role_id', '=', 'roles.id')
+            ->select("users.*", "roles.role", "roles.read")
             ->get();
 
          $response->data = ObjResponse::CorrectResponse();

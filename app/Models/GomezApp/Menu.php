@@ -5,7 +5,7 @@ namespace App\Models\GomezApp;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class Menu extends Model
 {
     use HasFactory;
 
@@ -21,13 +21,14 @@ class Role extends Model
      */
     protected $fillable = [
         'id',
-        'role',
-        'description',
-        'read',
-        'create',
-        'update',
-        'delete',
-        'more_permissions',
+        'menu',
+        'caption',
+        'type',
+        'belongs_to',
+        'url',
+        'icon',
+        'order',
+        'show_counter',
         'active',
         'deleted_at'
     ];
@@ -45,7 +46,7 @@ class Role extends Model
      * Nombre de la tabla asociada al modelo.
      * @var string
      */
-    protected $table = 'roles';
+    protected $table = 'menus';
 
     /**
      * LlavePrimaria asociada a la tabla.
@@ -56,10 +57,10 @@ class Role extends Model
     /**
      * Obtener los usuarios relacionados a un rol.
      */
-    public function users()
-    {
-        return $this->hasMany(User::class, 'role_id', 'id'); //primero se declara FK y despues la PK
-    }
+    // public function users()
+    // {
+    //     return $this->hasMany(User::class, 'role_id', 'id'); //primero se declara FK y despues la PK
+    // }
 
     /**
      * Valores defualt para los campos especificados.

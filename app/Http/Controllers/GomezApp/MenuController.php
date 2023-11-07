@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\GomezApp;
 
 use App\Http\Controllers\Controller;
-use App\Models\GomezApp\Role;
+use App\Models\GomezApp\Menu;
 use App\Models\ObjResponse;
 
 use Illuminate\Http\Request;
@@ -11,10 +11,58 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
 
-class RoleController extends Controller
+class MenuController extends Controller
 {
     /**
-     * Mostrar lista de roles activos.
+     * Mostrar lista de menus por rol activos.
+     *
+     * @return \Illuminate\Http\Response $response
+     */
+    public function MenusByRole(String $pages_read, Response $response)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            $list = Menu::where('menus.active', true)
+                ->orderBy('menus.order', 'asc')->get();
+            if ($pages_read != "todas") {
+                $menus_ids = rtrim($pages_read, ",");
+                $menus_ids = explode(",", $menus_ids);
+                // print_r($menus_ids) ;
+                $list = Menu::where('menus.active', true)
+                    ->whereIn("menus.id", $menus_ids)
+                    ->orderBy('menus.order', 'asc')->get();
+            }
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'Peticion satisfactoria | Lista de menus por rol.';
+            $response->data["result"] = $list;
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
+
+    /**
+     * Obtener id de la pagina por su url.
+     *
+     * @return \Illuminate\Http\Response $response
+     */
+    public function getIdByUrl(Request $request, Response $response)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            $menu = Menu::where('url', $request->url)->select("id")->first();
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'Peticion satisfactoria | Lista de menus.';
+            $response->data["result"] = $menu;
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
+    //#region CRUD
+
+    /**
+     * Mostrar lista de menus activos.
      *
      * @return \Illuminate\Http\Response $response
      */
@@ -22,10 +70,11 @@ class RoleController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $list = Role::where('active', true)
-                ->orderBy('roles.id', 'asc')->get();
+            $list = Menu::where('active', true)
+                ->select('menus.*')
+                ->orderBy('menus.id', 'asc')->get();
             $response->data = ObjResponse::CorrectResponse();
-            $response->data["message"] = 'Peticion satisfactoria. Lista de roles:';
+            $response->data["message"] = 'Peticion satisfactoria | Lista de menus.';
             $response->data["result"] = $list;
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
@@ -42,11 +91,11 @@ class RoleController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $list = Role::where('active', true)
-                ->select('roles.id as value', 'roles.role as text')
-                ->orderBy('roles.id', 'asc')->get();
+            $list = Menu::where('active', true)
+                ->select('menus.id as id', 'menus.menu as label')
+                ->orderBy('menus.menu', 'asc')->get();
             $response->data = ObjResponse::CorrectResponse();
-            $response->data["message"] = 'Peticion satisfactoria. Lista de roles:';
+            $response->data["message"] = 'Peticion satisfactoria | Lista de menus';
             $response->data["result"] = $list;
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
@@ -55,7 +104,7 @@ class RoleController extends Controller
     }
 
     /**
-     * Crear rol.
+     * Crear un nuevo menu.
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response $response
@@ -64,18 +113,13 @@ class RoleController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $new_role = Role::create([
-                'role' => $request->role,
+            $new_menu = Menu::create([
+                'menu' => $request->menu,
                 'description' => $request->description,
-                'read' => $request->read,
-                'create' => $request->create,
-                'update' => $request->update,
-                'delete' => $request->delete,
-                'more_permissions' => $request->more_permissions,
             ]);
             $response->data = ObjResponse::CorrectResponse();
-            $response->data["message"] = 'peticion satisfactoria | rol registrado.';
-            $response->data["alert_text"] = 'rol registrado';
+            $response->data["message"] = 'peticion satisfactoria | menu registrado.';
+            $response->data["alert_text"] = 'Menú registrado';
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }
@@ -83,7 +127,7 @@ class RoleController extends Controller
     }
 
     /**
-     * Mostrar rol.
+     * Mostrar menu.
      *
      * @param   int $id
      * @param  \Illuminate\Http\Request $request
@@ -93,11 +137,11 @@ class RoleController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $role = Role::find($request->id);
+            $menu = Menu::find($request->id);
 
             $response->data = ObjResponse::CorrectResponse();
-            $response->data["message"] = 'peticion satisfactoria | rol encontrado.';
-            $response->data["result"] = $role;
+            $response->data["message"] = 'peticion satisfactoria | menu encontrado.';
+            $response->data["result"] = $menu;
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }
@@ -105,7 +149,7 @@ class RoleController extends Controller
     }
 
     /**
-     * Actualizar rol.
+     * Actualizar menu.
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response $response
@@ -114,20 +158,15 @@ class RoleController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $role = Role::find($request->id)
+            $menu = Menu::find($request->id)
                 ->update([
-                    'role' => $request->role,
+                    'menu' => $request->menu,
                     'description' => $request->description,
-                    'read' => $request->read,
-                    'create' => $request->create,
-                    'update' => $request->update,
-                    'delete' => $request->delete,
-                    'more_permissions' => $request->more_permissions,
                 ]);
 
             $response->data = ObjResponse::CorrectResponse();
-            $response->data["message"] = 'peticion satisfactoria | rol actualizado.';
-            $response->data["alert_text"] = 'Rol actualizado';
+            $response->data["message"] = 'peticion satisfactoria | menu actualizado.';
+            $response->data["alert_text"] = 'Menú actualizado';
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }
@@ -135,7 +174,7 @@ class RoleController extends Controller
     }
 
     /**
-     * Eliminar (cambiar estado activo=false) rol.
+     * Eliminar (cambiar estado activo=false) menu.
      *
      * @param  int $id
      * @param  \Illuminate\Http\Request $request
@@ -145,17 +184,20 @@ class RoleController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            Role::find($request->id)
+            Menu::find($request->id)
                 ->update([
                     'active' => false,
                     'deleted_at' => date('Y-m-d H:i:s'),
                 ]);
             $response->data = ObjResponse::CorrectResponse();
-            $response->data["message"] = 'peticion satisfactoria | rol eliminado.';
-            $response->data["alert_text"] = 'Rol eliminado';
+            $response->data["message"] = 'peticion satisfactoria | menu eliminado.';
+            $response->data["alert_text"] = 'Menú eliminado';
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }
         return response()->json($response, $response->data["status_code"]);
     }
+    //#endregion CRUD
+
+
 }
