@@ -27,7 +27,7 @@ class MenuController extends Controller
             if ($pages_read != "todas") {
                 $menus_ids = rtrim($pages_read, ",");
                 $menus_ids = explode(",", $menus_ids);
-                // print_r($menus_ids) ;
+
                 $list = Menu::where('menus.active', true)
                     ->whereIn("menus.id", $menus_ids)
                     ->orderBy('menus.order', 'asc')->get();
