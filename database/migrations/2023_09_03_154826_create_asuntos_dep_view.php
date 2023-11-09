@@ -16,13 +16,15 @@ return new class extends Migration
         DB::statement("
         CREATE 
         VIEW `asuntos_dep` AS
-            SELECT 
-                `departamentos_asuntos`.`department_id` AS `department_id`,
-                `departamentos_asuntos`.`asunto_id` AS `asunto_id`,
-                `asuntos`.`asunto` AS `asunto`
-            FROM
-                (`departamentos_asuntos`
-                JOIN `asuntos` ON ((`asuntos`.`id` = `departamentos_asuntos`.`asunto_id`)))
+        SELECT 
+            `departamentos_asuntos`.`department_id` AS `department_id`,
+            `departments`.`department` AS `department`,
+            `departamentos_asuntos`.`asunto_id` AS `asunto_id`,
+            `asuntos`.`asunto` AS `asunto`
+        FROM
+            (`departamentos_asuntos`
+            JOIN `asuntos` ON ((`asuntos`.`id` = `departamentos_asuntos`.`asunto_id`)))
+            JOIN `departments` ON ((`departments`.`id` = `departamentos_asuntos`.`department_id`))
     ");
     }
 

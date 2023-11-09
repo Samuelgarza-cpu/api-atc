@@ -102,6 +102,7 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::controller(AsuntosDepController::class)->group(function () {
       Route::get('/asuntosdep', 'index');
       Route::get('/asuntosdep/{id}', 'show');
+      Route::post('/asuntosdep', 'store');
    });
 
    Route::controller(appController::class)->group(function () {
