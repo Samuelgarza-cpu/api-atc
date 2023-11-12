@@ -135,8 +135,26 @@ class AsuntosDepController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, Response $response)
     {
-        //
+
+
+        try {
+
+            $response->data = ObjResponse::DefaultResponse();
+
+            $destroy = AsuntosDepTable::where('department_id', $request->department_id)
+                ->where("asunto_id", $request->asuntos_id)->delete();
+
+
+            // $destroy->delete();
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'Peticion satisfactoria';
+            $response->data["result"] = $destroy;
+            return response()->json($response, $response->data["status_code"]);
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
     }
 }

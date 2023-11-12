@@ -29,6 +29,17 @@ class ReportController extends Controller
         $response = ReportView::all();
         return response()->json($response);
     }
+    public function reportsviewById(Request $request, Response $response)
+    {
+        $data = $request->all();
+        $array = array();
+        foreach ($data as $key => $value) {
+            $array[] = $value['departamento_id'];
+        }
+        $response = ReportView::whereIn("id_departamento", $array)->get();
+        return response()->json($response);
+    }
+
 
     public function getCards(Response $response)
     {

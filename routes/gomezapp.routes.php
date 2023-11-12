@@ -10,6 +10,7 @@ use App\Http\Controllers\GomezApp\ServiceController;
 use App\Http\Controllers\GomezApp\AsuntosDepController;
 use App\Http\Controllers\GomezApp\appController;
 use App\Http\Controllers\GomezApp\MenuController;
+use App\Http\Controllers\GomezApp\UsuariosDepController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -73,6 +74,7 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::get('/reports', 'index');
       Route::post('/reports/id/{id}', 'destroy');
       Route::get('/reportsview', 'reportsview');
+      Route::post('/reportsview', 'reportsviewById');
       Route::get('/icards', 'getCards');
       Route::post('/reports', 'saveReport');
       Route::post('/reports/response', 'saveResponse');
@@ -103,10 +105,16 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::get('/asuntosdep', 'index');
       Route::get('/asuntosdep/{id}', 'show');
       Route::post('/asuntosdep', 'store');
+      Route::post('/asuntosdep/deleted', 'destroy');
    });
 
    Route::controller(appController::class)->group(function () {
       Route::get('/asuntos', 'index');
       Route::post('/asuntos', 'store');
+   });
+
+   Route::controller(UsuariosDepController::class)->group(function () {
+      Route::get('/usuariosdep', 'index');
+      Route::get('/usuariosdep/{id}', 'indexById');
    });
 });

@@ -20,6 +20,7 @@ class DatabaseGomezAppSeeder extends Seeder
             GomezApp\RoleSeeder::class,
             GomezApp\DepartamentSeeder::class,
             GomezApp\UserSeeder::class,
+            GomezApp\UserDepSeeder::class,
             GomezApp\TipoServicioSedeer::class,
             GomezApp\OrigenReporteSeeder::class,
             GomezApp\AsuntosSeeder::class,
