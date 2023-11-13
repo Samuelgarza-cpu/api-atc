@@ -27,15 +27,25 @@ class RoleSeeder extends Seeder
         DB::connection('mysql_gomezapp')->table('roles')->insert([
             'role' => 'Administrador',
             'description' => 'Rol dedicado para usuarios que gestionaran el sistema.',
-            'read' => 'todas',
+            'read' => '1,2,3,4,5,6,7,14,15,16',
             'create' => 'todas',
             'update' => 'todas',
             'delete' => 'todas',
             'created_at' => now(),
         ]);
+
         DB::connection('mysql_gomezapp')->table('roles')->insert([
             'role' => 'Ciudadano',
             'description' => 'Rol dedicado para usuarios que harán se registran desde la AppMovil para levantar reportes.',
+            'created_at' => now(),
+        ]);
+        DB::connection('mysql_gomezapp')->table('roles')->insert([
+            'role' => 'Encargado',
+            'description' => 'Rol dedicado para usuarios que gestionaran el sistema.',
+            'read' => '3,4',
+            'create' => 'todas',
+            'update' => 'todas',
+            'delete' => 'todas',
             'created_at' => now(),
         ]);
     }

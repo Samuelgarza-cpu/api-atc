@@ -58,9 +58,13 @@ class ReportController extends Controller
         $pattern = "/[^0-9.-]/";
         if ($request->url != "") {
             $url = explode("@", $request->url);
-            $url2 = explode(",", $url[1]);
-            $lat = $url2[0];
-            $long = $url2[1];
+            if ($url[0] == $request->url) {
+                $url = "";
+            } else {
+                $url2 = explode(",", $url[1]);
+                $lat = $url2[0];
+                $long = $url2[1];
+            }
         }
 
 

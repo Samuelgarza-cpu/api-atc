@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::create('reportes_respuestas', function (Blueprint $table) {
 
             $table->foreignId('id_reporte')->constrained('reportes', 'id');
-            $table->string('respuesta'); //  QUEJA, SOSPECHA, DEMANDA ETC
+            $table->string('respuesta');
+            $table->string('motivo_reactivacion')->nullable();
+            $table->boolean('Active')->default(true);
             $table->date('fecha_respuesta');
             $table->timestamps();
         });

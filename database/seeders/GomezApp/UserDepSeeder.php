@@ -18,7 +18,7 @@ class UserDepSeeder extends Seeder
     {
         DB::connection('mysql_gomezapp')->table('usuarios_departamentos')->insert([
             'user_id' => 1,
-            'departamento_id' => 38,
+            'departamento_id' => 23,
             'created_at' => now()
         ]);
     }

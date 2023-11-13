@@ -60,15 +60,15 @@ class DepartamentSeeder extends Seeder
             'description' => 'CargaSeeder',
             'created_at' => now(),
         ]);
-      
-        
+
+
         DB::connection('mysql_gomezapp')->table('departments')->insert([
             'department' => 'SIDEAPA',
             'description' => 'CargaSeeder',
             'created_at' => now(),
         ]);
 
-            
+
         DB::connection('mysql_gomezapp')->table('departments')->insert([
             'department' => 'SALUD MUNICIPAL',
             'description' => 'CargaSeeder',
@@ -107,7 +107,7 @@ class DepartamentSeeder extends Seeder
             'description' => 'CargaSeeder',
             'created_at' => now(),
         ]);
-      
+
         DB::connection('mysql_gomezapp')->table('departments')->insert([
             'department' => 'BIENESTAR SOCIAL',
             'description' => 'CargaSeeder',
@@ -150,7 +150,7 @@ class DepartamentSeeder extends Seeder
             'description' => 'CargaSeeder',
             'created_at' => now(),
         ]);
-      
+
         DB::connection('mysql_gomezapp')->table('departments')->insert([
             'department' => 'DESARROLLO RURAL',
             'description' => 'CargaSeeder',
@@ -207,7 +207,7 @@ class DepartamentSeeder extends Seeder
             'created_at' => now(),
         ]);
 
-        
+
         DB::connection('mysql_gomezapp')->table('departments')->insert([
             'department' => 'ESTACIONOMETROS',
             'description' => 'CargaSeeder',
@@ -224,12 +224,5 @@ class DepartamentSeeder extends Seeder
             'description' => 'CargaSeeder',
             'created_at' => now(),
         ]);
-        DB::connection('mysql_gomezapp')->table('departments')->insert([
-            'department' => 'ATENCION CIUDADANA',
-            'description' => 'CargaSeeder',
-            'created_at' => now(),
-        ]);
-    
-
     }
 }
