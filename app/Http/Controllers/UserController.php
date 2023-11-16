@@ -31,7 +31,7 @@ class UserController extends Controller
          ]);
          $user = User::where("users.$field", "$value")->where('users.active', true)
             ->join("roles", "users.role_id", "=", "roles.id")
-            ->select("users.*", "roles.role", "roles.read")
+            ->select("users.*", "roles.role", "roles.read", "roles.create", "roles.update", "roles.delete", "roles.more_permissions")
             ->first();
 
          if (!$user || !Hash::check($request->password, $user->password)) {
