@@ -1,6 +1,6 @@
 ## About
 
-Proyecto Escolar SAMUEL GARZA
+Proyecto Escolar
 
 php artisan migrate:fresh --path=database/migrations/GomezApp --database=mysql_gomezapp
 php artisan db:seed --class=DatabaseGomezAppSeeder
