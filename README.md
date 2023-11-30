@@ -1,6 +1,6 @@
 ## About
 
-Proyecto Escolar
+Proyecto Escolar SAMUEL
 
 php artisan migrate:fresh --path=database/migrations/GomezApp --database=mysql_gomezapp
 php artisan db:seed --class=DatabaseGomezAppSeeder
