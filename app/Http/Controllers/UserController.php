@@ -154,8 +154,8 @@ class UserController extends Controller
       try {
 
          // $list = User::where('users.active', true)->where("role_id", ">=", $role_id)
-         $list = User::where('users.active', true)
-            ->join('roles', 'role_id', '=', 'roles.id')
+        //  $list = User::where('users.active', true)
+         $list = User::join('roles', 'role_id', '=', 'roles.id')
             ->select("users.*", "roles.role", "roles.read")
             ->get();
 
