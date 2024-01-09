@@ -49,6 +49,9 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::post('/users/update/{id?}', 'update');
       Route::post('/users/destroy/{id}', 'destroy');
       Route::post('/users/updatepassword/{id}', 'updatePassword');
+
+      Route::post('/users/destroyMultiple', 'destroyMultiple');
+      Route::get('/users/{id}/DisEnableUser/{active}', 'DisEnableUser');
    });
 
    Route::controller(RoleController::class)->group(function () {
