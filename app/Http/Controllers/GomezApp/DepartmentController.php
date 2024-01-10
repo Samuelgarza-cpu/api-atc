@@ -55,7 +55,7 @@ class DepartmentController extends Controller
     }
 
     /**
-     * Crear un nuev departamento.
+     * Crear un nuevo departamento.
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response $response

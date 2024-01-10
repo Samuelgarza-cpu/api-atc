@@ -4,87 +4,134 @@ namespace App\Http\Controllers\GomezApp;
 
 use App\Http\Controllers\Controller;
 use App\Models\GomezApp\Asuntos;
+use App\Models\ObjResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class appController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Mostrar lista de asuntos activas.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response $response
      */
     public function index(Response $response)
     {
-        $response = Asuntos::where('app', 1)
-            ->where('active', 1)
-            ->get();
-        return response()->json($response);
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            $list = Asuntos::where('active', true)
+                ->orderBy('asuntos.id', 'asc')->get();
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'Peticion satisfactoria | Lista de asuntos.';
+            $response->data["result"] = $list;
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Mostrar listado para un selector.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response $response
      */
-    public function create()
+    public function selectIndex(Response $response)
     {
-        //
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            $list = Asuntos::where('active', true)
+                ->select('asuntos.id as value', 'asuntos.asunto as text')
+                ->orderBy('asuntos.asunto', 'asc')->get();
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'Peticion satisfactoria | Lista de asuntos';
+            $response->data["result"] = $list;
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
+
+
+    /**
+     * Crear o Actualizar un asunto.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response $response
+     */
+    public function createOrUpdate(Request $request, Response $response, Int $id = null)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            $asunto = Asuntos::find($id);
+            if (!$asunto) $asunto = new Asuntos();
+
+            $asunto->asunto = $request->asunto;
+            $asunto->bg_circle = $request->bg_circle;
+            $asunto->bg_card = $request->bg_card;
+            $asunto->letter_black = $request->letter_black;
+            $asunto->icono = $request->icono;
+            $asunto->app = $request->app;
+
+            $asunto->save();
+
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = $id > 0 ? 'peticion satisfactoria | asunto editado.' : 'satisfactoria | asunto registrado.';
+            $response->data["alert_text"] = $id > 0 ? 'Asunto editado' : 'Asunto registrado';
+            $response->data["result"] = $asunto;
+            // return $asunto;
+        } catch (\Exception $ex) {
+            $msg =  "Error al crear o actualizar asunto: " . $ex->getMessage();
+            error_log("$msg");
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+            // return $msg;
+        }
+        return response()->json($response, $response->data["status_code"]);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Mostrar asunto.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param   int $id
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response $response
      */
-    public function store(Request $request)
+    public function show(Request $request, Response $response)
     {
-        return response()->json($request);
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            $asunto = Asuntos::find($request->id);
+
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'peticion satisfactoria | asunto encontrado.';
+            $response->data["result"] = $asunto;
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
     }
 
     /**
-     * Display the specified resource.
+     * Eliminar (cambiar estado activo=false) asunto.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int $id
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response $response
      */
-    public function show($id)
+    public function destroy(Int $id, Response $response)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            Asuntos::find($id)
+                ->update([
+                    'active' => false,
+                    'deleted_at' => date('Y-m-d H:i:s'),
+                ]);
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'peticion satisfactoria | asunto eliminado.';
+            $response->data["alert_text"] = 'Departamento eliminado';
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
     }
 }

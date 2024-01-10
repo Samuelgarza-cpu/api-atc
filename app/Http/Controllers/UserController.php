@@ -351,7 +351,7 @@ class UserController extends Controller
     * @param  int $id
     * @return \Illuminate\Http\Response $response
     */
-   public function DisEnableUser(Int $id, Int $active, Response $response)
+   public function disEnableUser(Int $id, Int $active, Response $response)
    {
       $response->data = ObjResponse::DefaultResponse();
       try {
@@ -371,7 +371,7 @@ class UserController extends Controller
    }
 
 
-   public function ImgUpload($image, $destination, $dir, $imgName)
+   public function imgUpload($image, $destination, $dir, $imgName)
    {
       try {
          $type = "JPG";

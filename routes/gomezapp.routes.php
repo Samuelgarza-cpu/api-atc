@@ -51,7 +51,7 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::post('/users/updatepassword/{id}', 'updatePassword');
 
       Route::post('/users/destroyMultiple', 'destroyMultiple');
-      Route::get('/users/{id}/DisEnableUser/{active}', 'DisEnableUser');
+      Route::get('/users/{id}/disEnableUser/{active}', 'disEnableUser');
    });
 
    Route::controller(RoleController::class)->group(function () {
@@ -113,7 +113,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
    Route::controller(appController::class)->group(function () {
       Route::get('/asuntos', 'index');
-      Route::post('/asuntos', 'store');
+    //   Route::post('/asuntos', 'store');
+      Route::get('/asuntos/selectIndex', 'selectIndex');
+      Route::get('/asuntos/{id}', 'show');
+      Route::post('/asuntos/create', 'createOrUpdate');
+      Route::post('/asuntos/update/{id}', 'createOrUpdate');
+      Route::get('/asuntos/destroy/{id}', 'destroy');
    });
 
    Route::controller(UsuariosDepController::class)->group(function () {
