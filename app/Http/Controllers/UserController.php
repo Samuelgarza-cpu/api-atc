@@ -216,7 +216,7 @@ class UserController extends Controller
             $new_user->curp = $request->curp == "" ? "" : $request->curp;
             $new_user->sexo = $request->sexo == "" ? "" : $request->sexo;
             $new_user->save();
-            
+
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | usuario registrado.';
@@ -253,11 +253,11 @@ class UserController extends Controller
       try {
 
 
-        $duplicate = $this->validateAvailableData($request->email, $request->phone, $request->curp, $request->id);
-         if ($duplicate["result"] == true) {
-            $response->data = $duplicate;
-            return response()->json($response);
-         }
+        // $duplicate = $this->validateAvailableData($request->email, $request->phone, $request->curp, $request->id);
+        //  if ($duplicate["result"] == true) {
+        //     $response->data = $duplicate;
+        //     return response()->json($response);
+        //  }
 
          $user = User::find($request->id)
             ->update([
