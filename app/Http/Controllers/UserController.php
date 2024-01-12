@@ -189,8 +189,6 @@ class UserController extends Controller
 
    public function create(Request $request, Response $response)
    {
-
-
       $response->data = ObjResponse::DefaultResponse();
       try {
          // $token = $request->bearerToken();
@@ -218,6 +216,7 @@ class UserController extends Controller
             $new_user->curp = $request->curp == "" ? "" : $request->curp;
             $new_user->sexo = $request->sexo == "" ? "" : $request->sexo;
             $new_user->save();
+            
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | usuario registrado.';
@@ -253,6 +252,12 @@ class UserController extends Controller
       $response->data = ObjResponse::DefaultResponse();
       try {
 
+
+        $duplicate = $this->validateAvailableData($request->email, $request->phone, $request->curp, $request->id);
+         if ($duplicate["result"] == true) {
+            $response->data = $duplicate;
+            return response()->json($response);
+         }
 
          $user = User::find($request->id)
             ->update([
@@ -319,11 +324,11 @@ class UserController extends Controller
 
 
    /**
-   * Eliminar usuario o usuarios.
-   *
-   * @param  int $id
-   * @param  \Illuminate\Http\Request $request
-   * @return \Illuminate\Http\Response $response
+     * Eliminar usuario o usuarios.
+     *
+     * @param  int $id
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response $response
    */
    public function destroyMultiple(Request $request, Response $response)
    {
@@ -418,12 +423,14 @@ class UserController extends Controller
       }
    }
 
-   private function validateAvailableData($username, $email, $id)
+   private function validateAvailableData($email, $phone, $curp, $id)
    {
       // #VALIDACION DE DATOS REPETIDOS
-      $duplicate = $this->checkAvailableData('users', 'username', $username, 'El nombre de usuario', 'username', $id, null);
-      if ($duplicate["result"] == true) return $duplicate;
       $duplicate = $this->checkAvailableData('users', 'email', $email, 'El correo electrónico', 'email', $id, null);
+      if ($duplicate["result"] == true) return $duplicate;
+      $duplicate = $this->checkAvailableData('users', 'phone', $phone, 'El telefono', 'phone', $id, null);
+      if ($duplicate["result"] == true) return $duplicate;
+      $duplicate = $this->checkAvailableData('users', 'curp', $curp, 'la CURP', 'curp', $id, null);
       if ($duplicate["result"] == true) return $duplicate;
       return array("result" => false);
    }

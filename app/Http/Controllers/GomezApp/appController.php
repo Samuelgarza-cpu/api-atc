@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\GomezApp;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\UserController;
 use App\Models\GomezApp\Asuntos;
 use App\Models\ObjResponse;
 use Illuminate\Http\Request;
@@ -69,9 +70,14 @@ class appController extends Controller
             $asunto->bg_circle = $request->bg_circle;
             $asunto->bg_card = $request->bg_card;
             $asunto->letter_black = $request->letter_black;
-            $asunto->icono = $request->icono;
-            $asunto->app = $request->app;
+            $asunto->app = $request->app == 1 ? "1" : "0";
 
+            $asunto->save();
+
+            $icono = $this->ImageUp($request, 'icono', $asunto->id, 'btn', true, "noImage.png");
+
+            if ($request->hasFile('icono'))
+                if ($icono != "") $asunto->icono = $icono;
             $asunto->save();
 
             $response->data = ObjResponse::CorrectResponse();
@@ -133,5 +139,23 @@ class appController extends Controller
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }
         return response()->json($response, $response->data["status_code"]);
+    }
+
+
+    private function ImageUp($request, $requestFile, $id, $posFix, $create, $nameFake)
+    {
+        $dir_path = "GomezApp/icons";
+        $dir = public_path($dir_path);
+        $img_name = "";
+        if ($request->hasFile($requestFile)) {
+            $img_file = $request->file($requestFile);
+            $instance = new UserController();
+            // $dir_path = "$dir_path/$id";
+            // $dir = "$dir/$id";
+            $img_name = $instance->ImgUpload($img_file, $dir, $dir_path, "$id-$posFix");
+        } else {
+            if ($create) $img_name = "$dir_path/$nameFake";
+        }
+        return $img_name;
     }
 }

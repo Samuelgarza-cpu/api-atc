@@ -9,4 +9,7 @@ class Asuntos extends Model
 {
     protected $connection = 'mysql_gomezapp';
     protected $table = 'asuntos';
+    protected $fillable = [
+        'active',
+    ];
 }
