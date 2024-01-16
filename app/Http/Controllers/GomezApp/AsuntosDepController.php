@@ -30,7 +30,7 @@ class AsuntosDepController extends Controller
         return response()->json($response, $response->data["status_code"]);
     }
 
-    public function vistaDepAsuntos(Response $response)
+    public function vistaDepAsuntos(Response $response)  //porque se hizo una segunda funcion de index?
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
