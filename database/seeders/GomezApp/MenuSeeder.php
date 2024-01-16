@@ -169,5 +169,25 @@ class MenuSeeder extends Seeder
             'order' => 3,
             'created_at' => now(),
         ]);
+
+        #15 - Secretaria Particular
+        DB::connection('mysql_gomezapp')->table('menus')->insert([
+            'menu' => 'Secretaria Particular',
+            'type' => 'group',
+            'belongs_to' => 0,
+            'url' => '/admin/secpar/solicitud',
+            // 'icon' => 'IconPaperBag',
+            'order' => 4,
+            'created_at' => now(),
+        ]);
+        DB::connection('mysql_gomezapp')->table('menus')->insert([
+            'menu' => 'SP_Solicitud',
+            'type' => 'item',
+            'belongs_to' => 17,
+            'url' => '/admin/secpar/solicitud',
+            'icon' => 'IconHierarchy2',
+            'order' => 4,
+            'created_at' => now(),
+        ]);
     }
 }
