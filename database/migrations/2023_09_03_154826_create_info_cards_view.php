@@ -14,9 +14,9 @@ return new class extends Migration
     public function up()
     {
         DB::statement("
-        CREATE 
+        CREATE OR REPLACE
         VIEW `info_cards` AS
-            SELECT 
+            SELECT
                 `asuntos`.`asunto` AS `asunto`,
                 `asuntos`.`bg_card` AS `bg_card`,
                 `asuntos`.`bg_circle` AS `bg_circle`,
@@ -29,7 +29,7 @@ return new class extends Migration
                 JOIN `reportes` ON ((`reportes`.`id` = `ra`.`id_reporte`)))
             WHERE
                 ((`reportes`.`active` = 1)
-                    AND `reportes`.`id` IN (SELECT 
+                    AND `reportes`.`id` IN (SELECT
                         `reportes_respuestas`.`id_reporte`
                     FROM
                         `reportes_respuestas`)

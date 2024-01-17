@@ -14,10 +14,10 @@ return new class extends Migration
     public function up()
     {
         DB::statement("
-        CREATE 
-  
+        CREATE OR REPLACE
+
         VIEW `reports` AS
-            SELECT 
+            SELECT
                 `reportes`.`id` AS `id`,
                 `reportes`.`fecha_reporte` AS `fecha_reporte`,
                 `reportes`.`cp` AS `cp`,
@@ -53,7 +53,7 @@ return new class extends Migration
                 `asuntos`.`asunto` AS `asunto`,
                 `reportes_asuntos`.`observaciones` AS `observaciones`,
                 `reportes_respuestas`.`respuesta` AS `respuesta`
-         
+
             FROM
                 (((((((((`reportes`
                 JOIN `users` ON ((`users`.`id` = `reportes`.`id_user`)))
@@ -64,7 +64,7 @@ return new class extends Migration
                 JOIN `servicios` ON ((`servicios`.`id` = `reportes_asuntos`.`id_servicio`)))
                 JOIN `asuntos` ON ((`asuntos`.`id` = `reportes_asuntos`.`id_asunto`)))
                 LEFT JOIN `reportes_respuestas` ON ((`reportes_respuestas`.`id_reporte` = `reportes`.`id`))))
-               
+
             WHERE
                 (`reportes`.`active` = 1)
     ");
