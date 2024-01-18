@@ -17,7 +17,10 @@ return new class extends Migration
             $table->id();
             $table->date('fecha_solicitud')->nullable();
             $table->string('folio')->nullable();
-            $table->foreignId('id_user')->constrained('users', 'id');
+            $table->string('nombre')->nullable();
+            $table->string('app')->nullable();
+            $table->string('apm')->nullable();
+            $table->string('telefono')->nullable();
             $table->string('cp')->nullable();
             $table->string('calle')->nullable();
             $table->string('num_ext')->nullable();
@@ -31,6 +34,7 @@ return new class extends Migration
             $table->foreignId('id_estatus')->constrained('estatus', 'id')->default(1);   // ASIGANDO, EN CURSO, ATENDIDO ETC
             $table->boolean('visto')->default(false);
             $table->dateTime('visto_at')->nullable();
+            $table->foreignId('id_user_create')->constrained('users', 'id');
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->dateTime('deleted_at')->nullable();
