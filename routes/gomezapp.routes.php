@@ -11,7 +11,7 @@ use App\Http\Controllers\GomezApp\AsuntosDepController;
 use App\Http\Controllers\GomezApp\appController;
 use App\Http\Controllers\GomezApp\MenuController;
 use App\Http\Controllers\GomezApp\UsuariosDepController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\GomezApp\SParticularController;
 use Illuminate\Support\Facades\Route;
 
 #region CONTROLLERS
@@ -125,4 +125,6 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::get('/usuariosdep', 'index');
       Route::get('/usuariosdep/{id}', 'indexById');
    });
+
+   Route::post('/sprequest',[SParticularController::class,'store']);
 });
