@@ -13,6 +13,15 @@ class SParticularController extends Controller
 {
     public function store(Request $request, Response $response ){
 
+        $request->validate([
+            'observaciones' => 'required|string|max:255',
+            'calle' => 'required|string|max:255',
+            'id_departamento_destino' => 'required',
+            'id_asunto' => 'required',
+           
+
+        ]);
+
         $longitud_cadena = 5;
         $caracteres_alfabeticos = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $caracter_alfabetico = $caracteres_alfabeticos[mt_rand(0, strlen($caracteres_alfabeticos) - 1)];
@@ -45,7 +54,7 @@ class SParticularController extends Controller
         $response->data = ObjResponse::CorrectResponse();
         $response->data["message"] = 'peticion satisfactoria | usuario eliminado.';
         $response->data["alert_text"] = "Respuesta enviada";
-        $response->data["result"] = ["se registro respuesta" =>  $request->all()];
+        $response->data["result"] = ["se registro respuesta" =>  $reports];
     } catch (\Exception $ex) {
         $response->data = ObjResponse::CatchResponse($ex->getMessage());
     }
