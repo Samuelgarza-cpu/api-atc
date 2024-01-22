@@ -113,7 +113,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
    Route::controller(appController::class)->group(function () {
       Route::get('/asuntos', 'index');
-    //   Route::post('/asuntos', 'store');
+      //   Route::post('/asuntos', 'store');
       Route::get('/asuntos/selectIndex', 'selectIndex');
       Route::get('/asuntos/{id}', 'show');
       Route::post('/asuntos/create', 'createOrUpdate');
@@ -125,6 +125,6 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::get('/usuariosdep', 'index');
       Route::get('/usuariosdep/{id}', 'indexById');
    });
-
-   Route::post('/sprequest',[SParticularController::class,'store']);
+   Route::get('/sprequest', [SParticularController::class, 'index']);
+   Route::post('/sprequest', [SParticularController::class, 'store']);
 });
