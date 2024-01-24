@@ -39,15 +39,11 @@ class ReportController extends Controller
         $response = ReportView::whereIn("id_departamento", $array)->get();
         return response()->json($response);
     }
-
-
     public function getCards(Response $response)
     {
         $response = InfoCards::all();
         return response()->json($response);
     }
-
-
     public function saveReport(Request $request, Response $response)
     {
         $latitud = "";

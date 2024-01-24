@@ -67,4 +67,34 @@ class SParticularController extends Controller
         }
         return response()->json($response, $response->data["status_code"]);
     }
+    public function destroy(Request $request, Response $response, $id)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            $deleteReport = SParticular::find($id);
+            $deleteReport->active = 0;
+            $deleteReport->deleted_at = now();
+            $deleteReport->save();
+
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'peticion satisfactoria | usuario eliminado.';
+            $response->data["alert_text"] = "Usuario eliminado";
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
+    public function show(Response $response, $id)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            $list = SpRequests::where("id", $id)->first();
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'Peticion satisfactoria | Lista de mis reportes.';
+            $response->data["result"] = $list;
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
 }
