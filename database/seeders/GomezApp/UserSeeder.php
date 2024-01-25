@@ -46,5 +46,11 @@ class UserSeeder extends Seeder
             'role_id' => 1,
             'created_at' => now()
         ]);
+        DB::connection('mysql_gomezapp')->table('users')->insert([
+            'email' => 'sp@gmail.com',
+            'password' => Hash::make('123'),
+            'role_id' => 5,
+            'created_at' => now()
+        ]);
     }
 }

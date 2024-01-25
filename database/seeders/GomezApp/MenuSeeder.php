@@ -45,7 +45,7 @@ class MenuSeeder extends Seeder
         ]);
         #4 - Registros
         DB::connection('mysql_gomezapp')->table('menus')->insert([
-            'menu' => 'Registros',
+            'menu' => 'ATC_Solicitud',
             'type' => 'item',
             'belongs_to' => 3,
             'url' => '/admin/registros',

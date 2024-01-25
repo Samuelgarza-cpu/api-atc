@@ -89,6 +89,7 @@ class SParticularController extends Controller
         $response->data = ObjResponse::DefaultResponse();
         try {
             $list = SpRequests::where("id", $id)->first();
+
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria | Lista de mis reportes.';
             $response->data["result"] = $list;
@@ -96,5 +97,49 @@ class SParticularController extends Controller
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }
         return response()->json($response, $response->data["status_code"]);
+    }
+    public function update(Request $request, Response $response)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        $idRequest = $request->id;
+        try {
+            $updateReport = SParticular::find($idRequest);
+            $updateReport->nombre = $request->nombre;
+            $updateReport->app = $request->app;
+            $updateReport->apm = $request->apm;
+            $updateReport->telefono = $request->telefono;
+            $updateReport->cp = $request->cp;
+            $updateReport->calle = $request->calle;
+            $updateReport->num_ext = $request->num_ext;
+            $updateReport->num_int = $request->num_int;
+            $updateReport->colonia = $request->colonia;
+            $updateReport->localidad = $request->localidad;
+            $updateReport->estado = $request->estado;
+            $updateReport->id_departamento_destino = $request->id_departamento_destino;
+            $updateReport->id_asunto = $request->id_asunto;
+            $updateReport->observaciones = $request->observaciones;
+            $updateReport->localidad = $request->localidad;
+            $updateReport->updated_at = now();
+            $updateReport->save();
+
+
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'peticion satisfactoria | usuario Actualizado.';
+            $response->data["alert_text"] = "Usuario Actualizado";
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
+
+    public function requestviewByIdDep(Request $request, Response $response)
+    {
+        $data = $request->all();
+        $array = array();
+        foreach ($data as $key => $value) {
+            $array[] = $value['departamento_id'];
+        }
+        $response = SpRequests::whereIn("id_departamento_destino", $array)->get();
+        return response()->json($response);
     }
 }

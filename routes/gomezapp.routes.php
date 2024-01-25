@@ -129,4 +129,6 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::get('/sprequest/{id}', [SParticularController::class, 'show']);
    Route::post('/sprequest', [SParticularController::class, 'store']);
    Route::post('/sprequest/destroy/{id}', [SParticularController::class, 'destroy']);
+   Route::post('/sprequest/update', [SParticularController::class, 'update']);
+   Route::post('/requestviewxdeps', [SParticularController::class, 'requestviewByIdDep']);
 });
