@@ -22,6 +22,7 @@ class RoleSeeder extends Seeder
             'create' => 'todas',
             'update' => 'todas',
             'delete' => 'todas',
+            'more_permissions' => 'todas',
             'created_at' => now(),
         ]);
         DB::connection('mysql_gomezapp')->table('roles')->insert([
@@ -31,6 +32,7 @@ class RoleSeeder extends Seeder
             'create' => 'todas',
             'update' => 'todas',
             'delete' => 'todas',
+            'more_permissions' => 'todas',
             'created_at' => now(),
         ]);
 
@@ -46,6 +48,7 @@ class RoleSeeder extends Seeder
             'create' => 'todas',
             'update' => 'todas',
             'delete' => 'todas',
+            'more_permissions' => 'todas',
             'created_at' => now(),
         ]);
 
@@ -56,6 +59,7 @@ class RoleSeeder extends Seeder
             'create' => 'todas',
             'update' => 'todas',
             'delete' => 'todas',
+            'more_permissions' => 'todas',
             'created_at' => now(),
         ]);
     }
