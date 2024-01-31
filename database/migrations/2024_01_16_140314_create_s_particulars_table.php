@@ -34,6 +34,8 @@ return new class extends Migration
             $table->foreignId('id_estatus')->constrained('estatus', 'id')->default(1);   // ASIGANDO, EN CURSO, ATENDIDO ETC
             $table->boolean('visto')->default(false);
             $table->dateTime('visto_at')->nullable();
+            $table->string('respuesta')->nullable();
+            $table->dateTime('respuesta_at')->nullable();
             $table->foreignId('id_user_create')->constrained('users', 'id');
             $table->boolean('active')->default(true);
             $table->timestamps();

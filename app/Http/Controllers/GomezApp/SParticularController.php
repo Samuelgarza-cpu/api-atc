@@ -84,6 +84,28 @@ class SParticularController extends Controller
         }
         return response()->json($response, $response->data["status_code"]);
     }
+    public function response(Request $request, Response $response, $id)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            $responseRequest = SParticular::find($id);
+
+            if($responseRequest->respuesta == null){
+                $responseRequest->respuesta = $request->response;
+                $responseRequest->respuesta_at = now();
+                $responseRequest->save();
+            }
+       
+
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'peticion satisfactoria | Respuesta almacenada.';
+            $response->data["alert_text"] = "Respuesta Almacenada";
+            $response->data["result"] = $request->all();
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
     public function show(Response $response, $id)
     {
         $response->data = ObjResponse::DefaultResponse();
