@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class SpRequests extends Model
 {
     protected $connection = 'mysql_gomezapp';
-    protected $table = 'sprequests';
+    protected $table = 'spRequests';
     public $timestamps = false;
 }
