@@ -114,7 +114,7 @@ class SParticularController extends Controller
 
             $list = SpRequests::where("id", $id)->first();
           
-            if($user_role_id == 4){
+            if($user_role_id == 4 && $list->visto != 1 ){
                 $vistoReport = SParticular::find($id);
                 $vistoReport->visto = 1;
                 $vistoReport->visto_at = now();
