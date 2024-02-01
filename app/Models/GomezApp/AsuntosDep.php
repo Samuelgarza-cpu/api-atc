@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class AsuntosDep extends Model
 {
     protected $connection = 'mysql_gomezapp';
-    protected $table = 'gomezapp.asuntos_dep';
+    protected $table = 'asuntos_dep';
 }

@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class AsuntosDepTable extends Model
 {
     protected $connection = 'mysql_gomezapp';
-    protected $table = 'gomezapp.departamentos_asuntos';
+    protected $table = 'departamentos_asuntos';
     public $timestamps = false;
 }

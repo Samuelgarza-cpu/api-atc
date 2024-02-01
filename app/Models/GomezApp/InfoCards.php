@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class InfoCards extends Model
 {
     protected $connection = 'mysql_gomezapp';
-    protected $table = 'gomezapp.info_cards';
+    protected $table = 'info_cards';
 }
