@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\GomezApp;
 
 use App\Http\Controllers\Controller;
-use App\Models\GomezApp\SParticular;
-use App\Models\GomezApp\SpRequests;
+use App\Models\GomezApp\SParticular;  //ESTA ES LA TABLA
+use App\Models\GomezApp\SpRequests;  //ESTA ES LA VISTA
 use App\Models\ObjResponse;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -106,12 +106,20 @@ class SParticularController extends Controller
         }
         return response()->json($response, $response->data["status_code"]);
     }
-    public function show(Response $response, $id)
+    public function show(Response $response, $id,$user_role_id)
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $list = SpRequests::where("id", $id)->first();
 
+
+            $list = SpRequests::where("id", $id)->first();
+          
+            if($user_role_id == 4){
+                $vistoReport = SParticular::find($id);
+                $vistoReport->visto = 1;
+                $vistoReport->visto_at = now();
+                $vistoReport->save();
+            }
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria | Lista de mis reportes.';
             $response->data["result"] = $list;

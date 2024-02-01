@@ -45,10 +45,10 @@ class RoleSeeder extends Seeder
             'role' => 'Encargado',
             'description' => 'Rol dedicado para usuarios que gestionaran el sistema.',
             'read' => '3,4,17,18',
-            'create' => 'todas',
+            'create' => '',
             'update' => 'todas',
             'delete' => 'todas',
-            'more_permissions' => 'todas',
+            'more_permissions' => 'responder,ver',
             'created_at' => now(),
         ]);
 
@@ -59,7 +59,7 @@ class RoleSeeder extends Seeder
             'create' => 'todas',
             'update' => 'todas',
             'delete' => 'todas',
-            'more_permissions' => 'todas',
+            'more_permissions' => 'ver,editar,eliminar',
             'created_at' => now(),
         ]);
     }

@@ -42,7 +42,7 @@ class UserSeeder extends Seeder
         ]);
         DB::connection('mysql_gomezapp')->table('users')->insert([
             'email' => 'admin@gmail.com',
-            'password' => Hash::make('123'),
+            'password' => Hash::make('desarrollo'),
             'role_id' => 1,
             'created_at' => now()
         ]);
