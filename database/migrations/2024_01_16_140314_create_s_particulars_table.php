@@ -36,7 +36,14 @@ return new class extends Migration
             $table->dateTime('visto_at')->nullable();
             $table->string('respuesta')->nullable();
             $table->dateTime('respuesta_at')->nullable();
+            $table->boolean('completado')->default(false);
+            $table->dateTime('completado_at')->nullable();
             $table->foreignId('id_user_create')->constrained('users', 'id');
+            $table->string('img_attach_1')->nullable();
+            $table->string('img_attach_2')->nullable();
+            $table->string('img_attach_3')->nullable();
+            $table->string('img_attach_4')->nullable();
+            $table->string('img_attach_5')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->dateTime('deleted_at')->nullable();

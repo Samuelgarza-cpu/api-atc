@@ -67,6 +67,26 @@ class SParticularController extends Controller
         }
         return response()->json($response, $response->data["status_code"]);
     }
+    public function postImgsAttach(Request $request, Response $response,$id)
+    {
+
+        try {
+
+            $response->data = ObjResponse::DefaultResponse();
+            $updateReport = SParticular::find($id);
+            
+            $updateReport->save();
+
+
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'peticion satisfactoria | usuario eliminado.';
+            $response->data["alert_text"] = "Respuesta enviada";
+            $response->data["result"] = ["se registraron las Evidencias" =>  $updateReport];
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
     public function destroy(Request $request, Response $response, $id)
     {
         $response->data = ObjResponse::DefaultResponse();
@@ -161,7 +181,6 @@ class SParticularController extends Controller
         }
         return response()->json($response, $response->data["status_code"]);
     }
-
     public function requestviewByIdDep(Request $request, Response $response)
     {
         $data = $request->all();
