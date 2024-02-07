@@ -191,4 +191,43 @@ class SParticularController extends Controller
         $response = SpRequests::whereIn("id_departamento_destino", $array)->get();
         return response()->json($response);
     }
+
+    public function attachImgs(Request $request, Response $response, $id)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+                $responseRequest = SParticular::find($id);
+                $img_attach_1 = $this->ImageUp($request, 'img_attach_1', $request->id, 'evidencia-1', false, "sinEvidencia.png");
+                if ($request->hasFile('img_attach_1')) $responseRequest->img_attach_1 = $img_attach_1;
+                $responseRequest->save();
+        
+       
+
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'peticion satisfactoria | Respuesta almacenada.';
+            $response->data["alert_text"] = "Respuesta Almacenada";
+            $response->data["result"] = $request->all();
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
+
+
+    private function imageUp($request, $requestFile, $id, $posFix, $create, $nameFake)
+    {
+        $dir_path = "ATC/sp-solicitudes";
+        $dir = public_path($dir_path);
+        $img_name = "";
+        if ($request->hasFile($requestFile)) {
+            $img_file = $request->file($requestFile);
+            $instance = new Controller();
+            $dir_path = "$dir_path/$id";
+            $dir = "$dir/$id";
+            $img_name = $instance->imgUpload($img_file, $dir, $dir_path, "$id-$posFix");
+        } else {
+            if ($create) $img_name = "$dir_path/$nameFake";
+        }
+        return $img_name;
+    }
 }
