@@ -67,26 +67,6 @@ class SParticularController extends Controller
         }
         return response()->json($response, $response->data["status_code"]);
     }
-    public function postImgsAttach(Request $request, Response $response,$id)
-    {
-
-        try {
-
-            $response->data = ObjResponse::DefaultResponse();
-            $updateReport = SParticular::find($id);
-            
-            $updateReport->save();
-
-
-            $response->data = ObjResponse::CorrectResponse();
-            $response->data["message"] = 'peticion satisfactoria | usuario eliminado.';
-            $response->data["alert_text"] = "Respuesta enviada";
-            $response->data["result"] = ["se registraron las Evidencias" =>  $updateReport];
-        } catch (\Exception $ex) {
-            $response->data = ObjResponse::CatchResponse($ex->getMessage());
-        }
-        return response()->json($response, $response->data["status_code"]);
-    }
     public function destroy(Request $request, Response $response, $id)
     {
         $response->data = ObjResponse::DefaultResponse();
@@ -192,28 +172,38 @@ class SParticularController extends Controller
         return response()->json($response);
     }
 
-    public function attachImgs(Request $request, Response $response, $id)
+    public function attachImgs(Request $request, Response $response,$id)
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-                $responseRequest = SParticular::find($id);
-                $img_attach_1 = $this->ImageUp($request, 'img_attach_1', $request->id, 'evidencia-1', false, "sinEvidencia.png");
-                if ($request->hasFile('img_attach_1')) $responseRequest->img_attach_1 = $img_attach_1;
-                $responseRequest->save();
-        
        
+                $responseRequest = SParticular::find($id);
+        
+                if($responseRequest){
+                    $img_attach_1 = $this->ImageUp($request, 'img_attach_1', $id, 'evidencia-1', false, "sinEvidencia.png");
+                    $img_attach_2 = $this->ImageUp($request, 'img_attach_2', $id, 'evidencia-2', false, "sinEvidencia.png");
+                    $img_attach_3 = $this->ImageUp($request, 'img_attach_3', $id, 'evidencia-3', false, "sinEvidencia.png");
+                    $img_attach_4 = $this->ImageUp($request, 'img_attach_4', $id, 'evidencia-4', false, "sinEvidencia.png");
+                    $img_attach_5 = $this->ImageUp($request, 'img_attach_5', $id, 'evidencia-5', false, "sinEvidencia.png");
+                      
+                    if ($request->hasFile('img_attach_1') || $request->img_attach_1 == "") $responseRequest->img_attach_1 = $img_attach_1;
+                    if ($request->hasFile('img_attach_2') || $request->img_attach_2 == "") $responseRequest->img_attach_2 = $img_attach_2;
+                    if ($request->hasFile('img_attach_3') || $request->img_attach_3 == "") $responseRequest->img_attach_3 = $img_attach_3;
+                    if ($request->hasFile('img_attach_4') || $request->img_attach_4 == "") $responseRequest->img_attach_4 = $img_attach_4;
+                    if ($request->hasFile('img_attach_5') || $request->img_attach_5 == "") $responseRequest->img_attach_5 = $img_attach_5;
 
+                    $responseRequest->save();
+
+                }
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | Respuesta almacenada.';
             $response->data["alert_text"] = "Respuesta Almacenada";
-            $response->data["result"] = $request->all();
+
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }
         return response()->json($response, $response->data["status_code"]);
     }
-
-
     private function imageUp($request, $requestFile, $id, $posFix, $create, $nameFake)
     {
         $dir_path = "ATC/sp-solicitudes";
