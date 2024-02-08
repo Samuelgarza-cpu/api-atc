@@ -27,12 +27,13 @@ return new class extends Migration
             $table->string('calle')->nullable();
             $table->string('num_ext')->nullable();
             $table->string('num_int')->nullable();
-            $table->string('colonia')->nullable();
-            $table->string('localidad')->nullable()->default('Gómez Palacio');
+            $table->string('colonia_localidad')->nullable();
+            $table->string('municipio')->nullable()->default('Gómez Palacio');
             $table->string('estado')->nullable()->default('Durango');
             $table->string('tipo_localidad')->nullable(); //urabo o rural
             $table->integer('id_departamento_destino')->nullable();
             $table->integer('id_asunto')->nullable();
+            $table->string('tipo_documento')->nullable();
             $table->string('observaciones')->nullable();
             $table->foreignId('id_estatus')->constrained('estatus', 'id')->default(1);   // ASIGANDO, EN CURSO, ATENDIDO ETC
             $table->boolean('visto')->default(false);

@@ -27,31 +27,41 @@ class SParticularController extends Controller
             'calle' => 'required|string|max:255',
             'id_departamento_destino' => 'required',
             'id_asunto' => 'required'
+        
         ]);
 
-        $longitud_cadena = 5;
-        $caracteres_alfabeticos = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $caracter_alfabetico = $caracteres_alfabeticos[mt_rand(0, strlen($caracteres_alfabeticos) - 1)];
-        $numeros = mt_rand(pow(10, $longitud_cadena - 2), pow(10, $longitud_cadena - 1) - 1);
-        $cadena_aleatoria = $caracter_alfabetico . $numeros;
+        // $longitud_cadena = 5;
+        // $caracteres_alfabeticos = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        // $caracter_alfabetico = $caracteres_alfabeticos[mt_rand(0, strlen($caracteres_alfabeticos) - 1)];
+        // $numeros = mt_rand(pow(10, $longitud_cadena - 2), pow(10, $longitud_cadena - 1) - 1);
+        // $cadena_aleatoria = $caracter_alfabetico . $numeros;
+        $nomenclatura ='CC-SP';
+        $registros = SParticular::all()->count();
+        $folioSiguiente = $registros + 1;
+        $numDocumento = $nomenclatura."/".$folioSiguiente."/".date('Y');
+
         try {
             $response->data = ObjResponse::DefaultResponse();
             $reports = new SParticular;
             $reports->fecha_solicitud = date('Y-m-d');
-            $reports->folio =  $cadena_aleatoria;
+            $reports->folio =  $numDocumento;
             $reports->nombre =  $request->nombre;
             $reports->app =  $request->app;
             $reports->apm =  $request->apm;
+            $reports->fecha_nacimiento =  $request->fecha_nacimiento;
+            $reports->cargo =  $request->cargo;
             $reports->telefono =  $request->telefono;
             $reports->calle = $request->calle;
             $reports->num_ext = $request->num_ext;
             $reports->num_int = $request->num_int;
             $reports->cp = $request->cp;
-            $reports->colonia = $request->colonia;
-            $reports->localidad = $request->localidad;
+            $reports->colonia_localidad = $request->colonia_localidad;
+            $reports->municipio = $request->municipio;
             $reports->estado = $request->estado;
+            $reports->tipo_localidad = $request->tipo_localidad;
             $reports->id_departamento_destino = $request->id_departamento_destino;
             $reports->id_asunto = $request->id_asunto;
+            $reports->tipo_documento = $request->tipo_documento;
             $reports->observaciones = $request->observaciones;
             $reports->id_user_create = $request->id_user_create;
             $reports->id_estatus = 1;
@@ -137,18 +147,21 @@ class SParticularController extends Controller
             $updateReport->nombre = $request->nombre;
             $updateReport->app = $request->app;
             $updateReport->apm = $request->apm;
+            $updateReport->fecha_nacimiento =  $request->fecha_nacimiento;
+            $updateReport->cargo =  $request->cargo;
             $updateReport->telefono = $request->telefono;
             $updateReport->cp = $request->cp;
             $updateReport->calle = $request->calle;
             $updateReport->num_ext = $request->num_ext;
             $updateReport->num_int = $request->num_int;
-            $updateReport->colonia = $request->colonia;
-            $updateReport->localidad = $request->localidad;
+            $updateReport->colonia_localidad = $request->colonia_localidad;
+            $updateReport->municipio = $request->municipio;
             $updateReport->estado = $request->estado;
             $updateReport->id_departamento_destino = $request->id_departamento_destino;
             $updateReport->id_asunto = $request->id_asunto;
             $updateReport->observaciones = $request->observaciones;
-            $updateReport->localidad = $request->localidad;
+            $updateReport->tipo_localidad = $request->tipo_localidad;
+            $updateReport->tipo_documento = $request->tipo_documento;
             $updateReport->updated_at = now();
             $updateReport->save();
 
