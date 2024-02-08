@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('nombre')->nullable();
             $table->string('app')->nullable();
             $table->string('apm')->nullable();
+            $table->date('fecha_nacimiento')->nullable();
+            $table->string('cargo')->nullable();
             $table->string('telefono')->nullable();
             $table->string('cp')->nullable();
             $table->string('calle')->nullable();
@@ -28,6 +30,7 @@ return new class extends Migration
             $table->string('colonia')->nullable();
             $table->string('localidad')->nullable()->default('Gómez Palacio');
             $table->string('estado')->nullable()->default('Durango');
+            $table->string('tipo_localidad')->nullable(); //urabo o rural
             $table->integer('id_departamento_destino')->nullable();
             $table->integer('id_asunto')->nullable();
             $table->string('observaciones')->nullable();
