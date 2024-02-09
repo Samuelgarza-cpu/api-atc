@@ -48,6 +48,11 @@ return new class extends Migration
             $table->string('img_attach_3')->nullable();
             $table->string('img_attach_4')->nullable();
             $table->string('img_attach_5')->nullable();
+            $table->string('img_stationery_1')->nullable();
+            $table->string('img_stationery_2')->nullable();
+            $table->string('img_stationery_3')->nullable();
+            $table->string('img_stationery_4')->nullable();
+            $table->string('img_stationery_5')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->dateTime('deleted_at')->nullable();

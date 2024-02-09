@@ -129,6 +129,7 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::get('/sprequest/{id}/{user_role_id}', [SParticularController::class, 'show']);
    Route::post('/sprequest', [SParticularController::class, 'store']);
    Route::post('/sprequest/imgsAttach/{id}', [SParticularController::class, 'attachImgs']);
+   Route::post('/sprequest/imgsStationery/{id}', [SParticularController::class, 'stationeryImgs']);
    Route::post('/sprequest/destroy/{id}', [SParticularController::class, 'destroy']);
    Route::post('/sprequest/response/{id}', [SParticularController::class, 'response']);
    Route::post('/sprequest/update', [SParticularController::class, 'update']);

@@ -217,9 +217,59 @@ class SParticularController extends Controller
         }
         return response()->json($response, $response->data["status_code"]);
     }
+    public function stationeryImgs(Request $request, Response $response,$id)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+       
+                $responseRequest = SParticular::find($id);
+        
+                if($responseRequest){
+                    $img_stationery_1 = $this->imageUpStationery($request, 'img_stationery_1', $id, 'papeleria-1', false, "sinpapeleria.png");
+                    $img_stationery_2 = $this->imageUpStationery($request, 'img_stationery_2', $id, 'papeleria-2', false, "sinpapeleria.png");
+                    $img_stationery_3 = $this->imageUpStationery($request, 'img_stationery_3', $id, 'papeleria-3', false, "sinpapeleria.png");
+                    $img_stationery_4 = $this->imageUpStationery($request, 'img_stationery_4', $id, 'papeleria-4', false, "sinpapeleria.png");
+                    $img_stationery_5 = $this->imageUpStationery($request, 'img_stationery_5', $id, 'papeleria-5', false, "sinpapeleria.png");
+                      
+                    if ($request->hasFile('img_stationery_1') || $request->img_stationery_1 == "") $responseRequest->img_stationery_1 = $img_stationery_1;
+                    if ($request->hasFile('img_stationery_2') || $request->img_stationery_2 == "") $responseRequest->img_stationery_2 = $img_stationery_2;
+                    if ($request->hasFile('img_stationery_3') || $request->img_stationery_3 == "") $responseRequest->img_stationery_3 = $img_stationery_3;
+                    if ($request->hasFile('img_stationery_4') || $request->img_stationery_4 == "") $responseRequest->img_stationery_4 = $img_stationery_4;
+                    if ($request->hasFile('img_stationery_5') || $request->img_stationery_5 == "") $responseRequest->img_stationery_5 = $img_stationery_5;
+
+                    $responseRequest->save();
+                    $response->data = ObjResponse::CorrectResponse();
+                    $response->data["message"] = 'peticion satisfactoria | Respuesta almacenada.';
+                    $response->data["alert_text"] = "Respuesta Almacenada";
+        
+
+                }
+           
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
     private function imageUp($request, $requestFile, $id, $posFix, $create, $nameFake)
     {
         $dir_path = "ATC/sp-solicitudes";
+        $dir = public_path($dir_path);
+        $img_name = "";
+        if ($request->hasFile($requestFile)) {
+            $img_file = $request->file($requestFile);
+            $instance = new Controller();
+            $dir_path = "$dir_path/$id";
+            $dir = "$dir/$id";
+            $img_name = $instance->imgUpload($img_file, $dir, $dir_path, "$id-$posFix");
+        } else {
+            if ($create) $img_name = "$dir_path/$nameFake";
+        }
+        return $img_name;
+    }
+
+    private function imageUpStationery($request, $requestFile, $id, $posFix, $create, $nameFake)
+    {
+        $dir_path = "ATC/sp-solicitudes/papeleria";
         $dir = public_path($dir_path);
         $img_name = "";
         if ($request->hasFile($requestFile)) {
