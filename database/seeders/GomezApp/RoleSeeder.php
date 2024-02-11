@@ -48,7 +48,7 @@ class RoleSeeder extends Seeder
             'create' => '',
             'update' => 'todas',
             'delete' => 'todas',
-            'more_permissions' => 'responder,ver',
+            'more_permissions' => 'responder,ver,evidencia',
             'created_at' => now(),
         ]);
 
@@ -59,7 +59,7 @@ class RoleSeeder extends Seeder
             'create' => 'todas',
             'update' => 'todas',
             'delete' => 'todas',
-            'more_permissions' => 'ver,editar,eliminar',
+            'more_permissions' => 'ver,editar,eliminar,papeleria',
             'created_at' => now(),
         ]);
     }
