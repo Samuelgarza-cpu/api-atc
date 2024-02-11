@@ -283,4 +283,21 @@ class SParticularController extends Controller
         }
         return $img_name;
     }
+
+
+    public function getImg64()
+    {
+        $dir_path = "ATC/sp-solicitudes";
+        $dir = public_path($dir_path);
+        $rutaImagen = "$dir/1/1-evidencia-1.PNG";
+
+        // if (File::exists($rutaImagen)) {
+            $imagenBytes = file_get_contents($rutaImagen);
+            $imagenBase64 = base64_encode($imagenBytes);
+
+            return response()->json(['base64Image' => $imagenBase64]);
+        // } else {
+        //     return response()->json(['error' => 'Imagen no encontrada'], 404);
+        // }
+    }
 }

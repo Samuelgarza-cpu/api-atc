@@ -16,3 +16,18 @@ SET sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISIO
 ## Config
 
 database.php -> 'strict' => false,
+
+
+APP_ENV=production
+APP_URL=https://backend.atc.gomezpalacio.gob.mx
+FILESYSTEM_DISK=public
+
+EN filesystems.php
+
+ 'public' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public'),
+            'url' => env('APP_URL').'/public',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
