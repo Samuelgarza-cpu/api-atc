@@ -55,7 +55,8 @@ class SParticularController extends Controller
             $reports->num_ext = $request->num_ext;
             $reports->num_int = $request->num_int;
             $reports->cp = $request->cp;
-            $reports->colonia_localidad = $request->colonia_localidad;
+            $reports->colonia = $request->colonia;
+            $reports->localidad = $request->localidad;
             $reports->municipio = $request->municipio;
             $reports->estado = $request->estado;
             $reports->tipo_localidad = $request->tipo_localidad;
@@ -154,7 +155,8 @@ class SParticularController extends Controller
             $updateReport->calle = $request->calle;
             $updateReport->num_ext = $request->num_ext;
             $updateReport->num_int = $request->num_int;
-            $updateReport->colonia_localidad = $request->colonia_localidad;
+            $updateReport->colonia = $request->colonia;
+            $updateReport->localidad = $request->localidad;
             $updateReport->municipio = $request->municipio;
             $updateReport->estado = $request->estado;
             $updateReport->id_departamento_destino = $request->id_departamento_destino;

@@ -27,7 +27,8 @@ return new class extends Migration
             $table->string('calle')->nullable();
             $table->string('num_ext')->nullable();
             $table->string('num_int')->nullable();
-            $table->string('colonia_localidad')->nullable();
+            $table->string('colonia')->nullable();
+            $table->string('localidad')->nullable();
             $table->string('municipio')->nullable()->default('Gómez Palacio');
             $table->string('estado')->nullable()->default('Durango');
             $table->string('tipo_localidad')->nullable(); //urabo o rural
