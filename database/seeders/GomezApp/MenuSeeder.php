@@ -189,5 +189,14 @@ class MenuSeeder extends Seeder
             'order' => 4,
             'created_at' => now(),
         ]);
+        DB::connection('mysql_gomezapp')->table('menus')->insert([
+            'menu' => 'Colonias',
+            'type' => 'item',
+            'belongs_to' => 17,
+            'url' => '/admin/secpar/colonias',
+            'icon' => 'IconHierarchy2',
+            'order' => 4,
+            'created_at' => now(),
+        ]);
     }
 }

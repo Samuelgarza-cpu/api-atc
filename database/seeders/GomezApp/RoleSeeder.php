@@ -55,7 +55,7 @@ class RoleSeeder extends Seeder
         DB::connection('mysql_gomezapp')->table('roles')->insert([
             'role' => 'SecretariaP',
             'description' => 'Rol dedicado para usuarios que Secretaria Particular.',
-            'read' => '17,18',
+            'read' => '17,18,19',
             'create' => 'todas',
             'update' => 'todas',
             'delete' => 'todas',

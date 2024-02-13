@@ -4,7 +4,7 @@ namespace App\Http\Controllers\GomezApp;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\GomezApp\AsuntosDep;
+use App\Models\GomezApp\AsuntosDep;  //Vista
 use App\Models\GomezApp\AsuntosDepTable;
 use App\Models\ObjResponse;
 use Illuminate\Http\Response;
@@ -65,13 +65,13 @@ class AsuntosDepController extends Controller
 
         try {
             $request->validate([
-                'depart' => 'required',
-                'asunto' => 'required'
+                'department_id' => 'required',
+                'asunto_id' => 'required'
             ]);
 
             $DepAsu = new AsuntosDepTable;
-            $DepAsu->department_id = $request->depart;
-            $DepAsu->asunto_id = $request->asunto;
+            $DepAsu->department_id = $request->department_id;
+            $DepAsu->asunto_id = $request->asunto_id;
             $DepAsu->save();
 
             $response->data = ObjResponse::CorrectResponse();
@@ -135,7 +135,7 @@ class AsuntosDepController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Response $response)
+    public function destroy(Request $request, Response $response, $dep_id, $asu_id)
     {
 
 
@@ -143,8 +143,8 @@ class AsuntosDepController extends Controller
 
             $response->data = ObjResponse::DefaultResponse();
 
-            $destroy = AsuntosDepTable::where('department_id', $request->department_id)
-                ->where("asunto_id", $request->asuntos_id)->delete();
+            $destroy = AsuntosDepTable::where('department_id', $dep_id)
+                ->where("asunto_id", $asu_id)->delete();
 
 
             // $destroy->delete();

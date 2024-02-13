@@ -108,7 +108,7 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::get('/asuntosdep', 'index');
       Route::get('/asuntosdep/{id}', 'show');
       Route::post('/asuntosdep', 'store');
-      Route::post('/asuntosdep/deleted', 'destroy');
+      Route::get('/asuntosdep/destroy/{dep_id}/{asu_id}', 'destroy');
    });
 
    Route::controller(appController::class)->group(function () {
