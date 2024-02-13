@@ -46,5 +46,6 @@ class UserDepSeeder extends Seeder
             'departamento_id' => 23,
             'created_at' => now()
         ]);
+    
     }
 }

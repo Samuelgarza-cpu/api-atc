@@ -48,8 +48,38 @@ class UserSeeder extends Seeder
         ]);
         DB::connection('mysql_gomezapp')->table('users')->insert([
             'email' => 'sp@gmail.com',
-            'password' => Hash::make('123'),
+            'password' => Hash::make('654321'),
             'role_id' => 5,
+            'created_at' => now()
+        ]);
+        DB::connection('mysql_gomezapp')->table('users')->insert([
+            'email' => 'mayte.gomez@gomezpalacio.gob.mx',
+            'password' => Hash::make('123456'),
+            'role_id' => 6,
+            'created_at' => now()
+        ]);
+        DB::connection('mysql_gomezapp')->table('users')->insert([
+            'email' => 'adriana.ornelas@gomezpalacio.gob.mx',
+            'password' => Hash::make('123456'),
+            'role_id' => 6,
+            'created_at' => now()
+        ]);
+        DB::connection('mysql_gomezapp')->table('users')->insert([
+            'email' => 'miguel.martinez@gomezpalacio.gob.mx',
+            'password' => Hash::make('123456'),
+            'role_id' => 6,
+            'created_at' => now()
+        ]);
+        DB::connection('mysql_gomezapp')->table('users')->insert([
+            'email' => 'cristina.alba@gomezpalacio.gob.mx',
+            'password' => Hash::make('123456'),
+            'role_id' => 6,
+            'created_at' => now()
+        ]);
+        DB::connection('mysql_gomezapp')->table('users')->insert([
+            'email' => 'veronica.vanegas@gomezpalacio.gob.mx',
+            'password' => Hash::make('654321'),
+            'role_id' => 7,
             'created_at' => now()
         ]);
     }
