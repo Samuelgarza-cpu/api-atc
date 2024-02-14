@@ -1,0 +1,54 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        DB::statement("
+        CREATE VIEW incumplimiento AS 
+    SELECT 
+        `sp_requests`.`id` AS `id`,
+        `sp_requests`.`folio` AS `folio`,
+        `sp_requests`.`nombre` AS `nombre`,
+        `sp_requests`.`app` AS `app`,
+        `sp_requests`.`apm` AS `apm`,
+        `sp_requests`.`tipo_documento` AS `tipo_documento`,
+        `sp_requests`.`observaciones` AS `observaciones`,
+        `sp_requests`.`visto_at` AS `visto_at`,
+        `sp_requests`.`respuesta` AS `respuesta`,
+        `sp_requests`.`respuesta_at` AS `respuesta_at`,
+        `sp_requests`.`completado` AS `completado`,
+        `sp_requests`.`created_at` AS `created_at`,
+        `departments`.`department` AS `department`,
+        `asuntos`.`asunto` AS `asunto`,
+        DATEDIFF(NOW(),`sp_requests`.`created_at`) as 'DIAS TRANSCURRIDOS'
+    FROM
+        ((`sp_requests`
+        JOIN `departments` ON ((`departments`.`id` = `sp_requests`.`id_departamento_destino`)))
+        JOIN `asuntos` ON ((`sp_requests`.`id_asunto` = `asuntos`.`id`)))
+    WHERE
+        (`sp_requests`.`active` = 1) and ( DATEDIFF(NOW(),`sp_requests`.`created_at`) > 5 );
+         
+    ");
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        DB::statement('DROP VIEW IF EXISTS incumplimiento');
+    }
+};

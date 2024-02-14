@@ -23,7 +23,7 @@ class SParticularController extends Controller
     {
 
         $request->validate([
-            'observaciones' => 'required|string|max:255',
+            'observaciones' => 'required|string',
             'calle' => 'required|string|max:255',
             'id_departamento_destino' => 'required',
             'id_asunto' => 'required'
