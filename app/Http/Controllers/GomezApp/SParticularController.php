@@ -5,6 +5,7 @@ namespace App\Http\Controllers\GomezApp;
 use App\Http\Controllers\Controller;
 use App\Models\GomezApp\SParticular;  //ESTA ES LA TABLA
 use App\Models\GomezApp\SpRequests;  //ESTA ES LA VISTA
+use App\Models\GomezApp\ReporteIncumplimiento;
 use App\Models\ObjResponse;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -65,7 +66,7 @@ class SParticularController extends Controller
             $reports->tipo_documento = $request->tipo_documento;
             $reports->observaciones = $request->observaciones;
             $reports->id_user_create = $request->id_user_create;
-            $reports->id_estatus = 1;
+   
             $reports->save();
 
 
@@ -104,6 +105,9 @@ class SParticularController extends Controller
             if($responseRequest->respuesta == null){
                 $responseRequest->respuesta = $request->response;
                 $responseRequest->respuesta_at = now();
+                if($responseRequest->img_attach_1 != null){
+                    $responseRequest->estatus = "CUMPLIDA";
+                }
                 $responseRequest->save();
             }
        
@@ -186,7 +190,6 @@ class SParticularController extends Controller
         $response = SpRequests::whereIn("id_departamento_destino", $array)->get();
         return response()->json($response);
     }
-
     public function attachImgs(Request $request, Response $response,$id)
     {
         $response->data = ObjResponse::DefaultResponse();
@@ -207,6 +210,13 @@ class SParticularController extends Controller
                     if ($request->hasFile('img_attach_4') || $request->img_attach_4 == "") $responseRequest->img_attach_4 = $img_attach_4;
                     if ($request->hasFile('img_attach_5') || $request->img_attach_5 == "") $responseRequest->img_attach_5 = $img_attach_5;
 
+                    if($responseRequest->img_attach_1 != null){
+                        if($responseRequest->respuesta != null){
+                            $responseRequest->estatus = "CUMPLIDA";
+                        }
+                    }
+
+                   
                     $responseRequest->save();
 
                 }
@@ -285,8 +295,6 @@ class SParticularController extends Controller
         }
         return $img_name;
     }
-
-
     public function getImg64()
     {
         $dir_path = "ATC/sp-solicitudes";
@@ -301,5 +309,25 @@ class SParticularController extends Controller
         // } else {
         //     return response()->json(['error' => 'Imagen no encontrada'], 404);
         // }
+    }
+    public function getIncumplimiento(){
+        $data = ReporteIncumplimiento::all();
+        return response()->json($data);
+    }
+    public function changeIncumplimiento(Response $response, $id){
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+
+                $incumplimientoReport = SParticular::find($id);
+                $incumplimientoReport->estatus =  $incumplimientoReport->estatus.' - '.'FUERA DE TIEMPO';
+                $incumplimientoReport->save();
+            
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'Peticion satisfactoria ';
+            $response->data["result"] = $incumplimientoReport;
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
     }
 }

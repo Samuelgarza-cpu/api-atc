@@ -36,7 +36,6 @@ return new class extends Migration
             $table->integer('id_asunto')->nullable();
             $table->string('tipo_documento')->nullable();
             $table->string('observaciones')->nullable();
-            $table->foreignId('id_estatus')->constrained('estatus', 'id')->default(1);   // ASIGANDO, EN CURSO, ATENDIDO ETC
             $table->boolean('visto')->default(false);
             $table->dateTime('visto_at')->nullable();
             $table->string('respuesta')->nullable();
@@ -55,6 +54,7 @@ return new class extends Migration
             $table->string('img_stationery_4')->nullable();
             $table->string('img_stationery_5')->nullable();
             $table->boolean('active')->default(true);
+            $table->string('estatus')->default("ALTA");
             $table->timestamps();
             $table->dateTime('deleted_at')->nullable();
         });

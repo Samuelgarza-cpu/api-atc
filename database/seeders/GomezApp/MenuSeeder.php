@@ -198,5 +198,14 @@ class MenuSeeder extends Seeder
             'order' => 4,
             'created_at' => now(),
         ]);
+        DB::connection('mysql_gomezapp')->table('menus')->insert([
+            'menu' => 'Incumplimiento',
+            'type' => 'item',
+            'belongs_to' => 5,
+            'url' => '/admin/secpar/reporte/incum',
+            'icon' => 'IconCheckupList',
+            'order' => 3,
+            'created_at' => now(),
+        ]);
     }
 }
