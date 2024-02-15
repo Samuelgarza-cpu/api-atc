@@ -15,8 +15,8 @@ return new class extends Migration
     public function up()
     {
         DB::statement("
-        CREATE VIEW incumplimiento AS 
-    SELECT 
+        CREATE VIEW incumplimiento as
+   SELECT 
         `sp_requests`.`id` AS `id`,
         `sp_requests`.`folio` AS `folio`,
         `sp_requests`.`nombre` AS `nombre`,
@@ -24,21 +24,25 @@ return new class extends Migration
         `sp_requests`.`apm` AS `apm`,
         `sp_requests`.`tipo_documento` AS `tipo_documento`,
         `sp_requests`.`observaciones` AS `observaciones`,
+		`sp_requests`.`created_at` AS `created_at`,
         `sp_requests`.`visto_at` AS `visto_at`,
+		`sp_requests`.`respuesta_at` AS `respuesta_at`,
         `sp_requests`.`respuesta` AS `respuesta`,
-        `sp_requests`.`respuesta_at` AS `respuesta_at`,
-        `sp_requests`.`created_at` AS `created_at`,
+		`sp_requests`.`completado_at` AS `completado_at`,
         `departments`.`department` AS `department`,
         `asuntos`.`asunto` AS `asunto`,
-        DATEDIFF(NOW(),`sp_requests`.`created_at`) as 'dias_transcurridos'
+        (TO_DAYS(NOW()) - TO_DAYS(`sp_requests`.`created_at`)) AS `dias_transcurridos`
     FROM
         ((`sp_requests`
         JOIN `departments` ON ((`departments`.`id` = `sp_requests`.`id_departamento_destino`)))
         JOIN `asuntos` ON ((`sp_requests`.`id_asunto` = `asuntos`.`id`)))
-        WHERE
+    WHERE
         ((`sp_requests`.`active` = 1)
             AND ((TO_DAYS(NOW()) - TO_DAYS(`sp_requests`.`created_at`)) > 5)
-            AND (`sp_requests`.`estatus` = 'ALTA' or`sp_requests`.`estatus` = 'CUMPLIDA'))
+            AND ((`sp_requests`.`estatus` = 'ALTA')
+            OR (`sp_requests`.`estatus` = 'CUMPLIDA'))
+			AND(isnull(`sp_requests`.`completado_at`) OR (`sp_requests`.`completado_at` > `sp_requests`.`created_at`) ) 
+            )
          
     ");
     }

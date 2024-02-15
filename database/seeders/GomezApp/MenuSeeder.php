@@ -207,5 +207,14 @@ class MenuSeeder extends Seeder
             'order' => 3,
             'created_at' => now(),
         ]);
+        DB::connection('mysql_gomezapp')->table('menus')->insert([
+            'menu' => 'SP_Estaditicas',
+            'type' => 'item',
+            'belongs_to' => 1,
+            'url' => '/admin/secpar/dashboard',
+            'icon' => 'IconCheckupList',
+            'order' => 2,
+            'created_at' => now(),
+        ]);
     }
 }

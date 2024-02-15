@@ -106,6 +106,8 @@ class SParticularController extends Controller
                 $responseRequest->respuesta = $request->response;
                 $responseRequest->respuesta_at = now();
                 if($responseRequest->img_attach_1 != null){
+                    $responseRequest->completado = 1;
+                    $responseRequest->completado_at = now();
                     $responseRequest->estatus = "CUMPLIDA";
                 }
                 $responseRequest->save();
@@ -212,6 +214,8 @@ class SParticularController extends Controller
 
                     if($responseRequest->img_attach_1 != null){
                         if($responseRequest->respuesta != null){
+                            $responseRequest->completado = 1;
+                            $responseRequest->completado_at = now();
                             $responseRequest->estatus = "CUMPLIDA";
                         }
                     }
