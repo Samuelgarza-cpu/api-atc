@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -13,12 +14,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('departamentos_asuntos', function (Blueprint $table) {
-        
-            $table->integer('department_id');
-            $table->integer('asunto_id');
-           
-        });
+        DB::statement("
+        CREATE VIEW SolicitudesXEstatus as
+        select estatus, count(*) as Total from gomezapp.sp_requests group by estatus
+    ");
     }
 
     /**
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('departamentos_asuntos');
+        DB::statement('DROP VIEW IF EXISTS incumplimiento');
     }
 };

@@ -14,10 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('reportes_asuntos', function (Blueprint $table) {
-           
-            $table->foreignId('id_reporte')->constrained('reportes','id');
-            $table->foreignId('id_servicio')->constrained('servicios','id')->default(1); //  QUEJA, SOSPECHA, DEMANDA ETC
-            $table->foreignId('id_asunto')->constrained('asuntos','id');
+        
+            $table->integer('id_reporte')->nullable();
+            $table->integer('id_servicio')->nullable(); //  QUEJA, SOSPECHA, DEMANDA ET
+            $table->integer('id_asunto')->nullable();
             $table->string('observaciones');
            
         });
