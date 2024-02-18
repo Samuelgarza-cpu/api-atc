@@ -208,7 +208,7 @@ class MenuSeeder extends Seeder
             'created_at' => now(),
         ]);
         DB::connection('mysql_gomezapp')->table('menus')->insert([
-            'menu' => 'SP_Estaditicas',
+            'menu' => 'SP_Estadísticas',
             'type' => 'item',
             'belongs_to' => 1,
             'url' => '/admin/secpar/dashboard',
