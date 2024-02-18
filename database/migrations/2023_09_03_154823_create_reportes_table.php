@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('folio')->nullable();
             $table->string('latitud')->nullable(); //->unique();
             $table->string('longitud')->nullable();
-            $table->foreignId('id_user')->constrained('users', 'id');
+            $table->integer('id_user')->nullable();
             $table->string('cp')->nullable();
             $table->string('calle')->nullable();
             $table->string('num_ext')->nullable();

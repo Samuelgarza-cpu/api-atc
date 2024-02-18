@@ -42,7 +42,7 @@ return new class extends Migration
             $table->dateTime('respuesta_at')->nullable();
             $table->boolean('completado')->default(false);
             $table->dateTime('completado_at')->nullable();
-            $table->foreignId('id_user_create')->constrained('users', 'id');
+            $table->integer('id_user_create')->nullable();
             $table->string('img_attach_1')->nullable();
             $table->string('img_attach_2')->nullable();
             $table->string('img_attach_3')->nullable();
