@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         DB::statement("
-        CREATE VIEW SolicitudesXEstatus as
+        CREATE VIEW solicitudesxestatus as
         select estatus, count(*) as Total from sp_requests group by estatus
     ");
     }
