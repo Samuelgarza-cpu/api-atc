@@ -31,3 +31,5 @@ EN filesystems.php
             'visibility' => 'public',
             'throw' => false,
         ],
+
+        php artisan migrate:refresh --path=/database/migrations/2023_09_02_201724_create_departments_table.php

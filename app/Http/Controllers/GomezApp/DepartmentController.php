@@ -66,11 +66,13 @@ class DepartmentController extends Controller
         try {
             $new_department = Department::create([
                 'department' => $request->department,
+                'director' => $request->director,
                 'description' => $request->description,
             ]);
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | departamento registrado.';
             $response->data["alert_text"] = 'Departamento registrado';
+            $response->data["RESULT"] = $request->all();
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }
@@ -112,6 +114,7 @@ class DepartmentController extends Controller
             $department = Department::find($request->id)
                 ->update([
                     'department' => $request->department,
+                    'director' => $request->director,
                     'description' => $request->description,
                 ]);
 

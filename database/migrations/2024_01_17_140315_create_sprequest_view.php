@@ -18,7 +18,7 @@ return new class extends Migration
         CREATE 
   
         VIEW `spRequests` AS
-        select sp_requests.*, departments.department,asuntos.asunto FROM sp_requests 
+        select sp_requests.*, departments.department,departments.director,asuntos.asunto FROM sp_requests 
         inner join departments on departments.id = sp_requests.id_departamento_destino
         inner join asuntos on sp_requests.id_asunto = asuntos.id 
         where sp_requests.active = 1

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
             $table->string('department');
-            $table->string('director/a')->nullable();
+            $table->string('director')->nullable();
             $table->string('firma')->nullable();
             $table->string('description')->nullable();
             $table->boolean('active')->default(true);
