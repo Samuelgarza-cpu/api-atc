@@ -16,7 +16,7 @@ return new class extends Migration
     {
         DB::statement("
         CREATE VIEW SolicitudesXEstatus as
-        select estatus, count(*) as Total from gomezapp.sp_requests group by estatus
+        select estatus, count(*) as Total from sp_requests group by estatus
     ");
     }
 
