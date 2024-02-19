@@ -109,7 +109,11 @@ class SParticularController extends Controller
                 if($responseRequest->img_attach_1 != null){
                     $responseRequest->completado = 1;
                     $responseRequest->completado_at = now();
-                    $responseRequest->estatus = "CUMPLIDA";
+                    if($responseRequest->estatus == 'ALTA - FUERA DE TIEMPO'){
+                        $responseRequest->estatus = "COMPLETA - FUERA DE TIEMPO";
+                    }else{
+                        $responseRequest->estatus = "COMPLETA";
+                    }
                 }
                 $responseRequest->save();
             }
@@ -217,7 +221,11 @@ class SParticularController extends Controller
                         if($responseRequest->respuesta != null){
                             $responseRequest->completado = 1;
                             $responseRequest->completado_at = now();
-                            $responseRequest->estatus = "CUMPLIDA";
+                            if($responseRequest->estatus == 'ALTA - FUERA DE TIEMPO'){
+                                $responseRequest->estatus = "COMPLETA - FUERA DE TIEMPO";
+                            }else{
+                                $responseRequest->estatus = "COMPLETA";
+                            }
                         }
                     }
 
