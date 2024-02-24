@@ -32,4 +32,4 @@ EN filesystems.php
             'throw' => false,
         ],
 
-        php artisan migrate:refresh --path=/database/migrations/2023_09_02_201724_create_departments_table.php
+        php artisan migrate:refresh --path=/database/migrations/2024_02_16_140318_create_solicitudesxestatus_view.php
