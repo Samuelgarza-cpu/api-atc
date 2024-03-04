@@ -13,6 +13,8 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 SET sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
+SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+
 ## Config
 
 database.php -> 'strict' => false,
@@ -32,4 +34,4 @@ EN filesystems.php
             'throw' => false,
         ],
 
-        php artisan migrate:refresh --path=/database/migrations/2023_09_02_201724_create_departments_table.php
+        php artisan migrate:refresh --path=/database/migrations/2024_02_16_140318_create_solicitudesxestatus_view.php
