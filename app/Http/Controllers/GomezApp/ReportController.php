@@ -112,7 +112,7 @@ class ReportController extends Controller
                     $reports->latitud = $lat;
                     $reports->longitud = $long;
                     $reports->estado = $request->estado;
-                    $reports->id_departamento = $request->depart;
+                    $reports->id_departamento = $request->id_departamento;
                     $reports->id_origen = $request->origen;
                     $reports->id_estatus = 1;
                     $reports->community_id = $request->community_id;
@@ -124,7 +124,7 @@ class ReportController extends Controller
                     $reportsAsunt = new ReportAsuntos();
                     $reportsAsunt->id_reporte = $reports->id;
                     $reportsAsunt->id_servicio = $request->tipoServicio;
-                    $reportsAsunt->id_asunto = $request->asunto;
+                    $reportsAsunt->id_asunto = $request->id_asunto;
                     $reportsAsunt->observaciones = $request->observaciones;
                     $reportsAsunt->save();
 
