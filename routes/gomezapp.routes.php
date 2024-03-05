@@ -135,6 +135,7 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::post('/sprequest/response/{id}', [SParticularController::class, 'response']);
    Route::post('/sprequest/update', [SParticularController::class, 'update']);
    Route::post('/requestviewxdeps', [SParticularController::class, 'requestviewByIdDep']);
+   Route::get('/requestdepartmentstatus', [SParticularController::class, 'requestdepartmentstatus']);
 
    Route::get('/getImg64', [SParticularController::class, 'getImg64']);
    Route::get('/reporte/incumplimiento', [SParticularController::class, 'getIncumplimiento']);
