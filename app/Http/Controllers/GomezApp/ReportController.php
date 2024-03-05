@@ -63,8 +63,6 @@ class ReportController extends Controller
             }
         }
 
-
-
         $longitud_cadena = 5;
         $caracteres_alfabeticos = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $caracter_alfabetico = $caracteres_alfabeticos[mt_rand(0, strlen($caracteres_alfabeticos) - 1)];
@@ -155,7 +153,7 @@ class ReportController extends Controller
                     $reports->colonia = $request->colonia;
                     $reports->localidad = $request->ciudad;
                     $reports->estado = $request->estado;
-                    $reports->id_departamento = $request->depart;
+                    $reports->id_departamento = $request->id_departamento;
                     $reports->id_origen = $request->origen;
                     $reports->latitud = $lat;
                     $reports->longitud = $long;
@@ -168,7 +166,7 @@ class ReportController extends Controller
                         ->update([
                             'observaciones' => $request->observaciones,
                             'id_servicio' => $request->tipoServicio,
-                            'id_asunto' => $request->asunto
+                            'id_asunto' => $request->id_asunto
                         ]);
 
 
