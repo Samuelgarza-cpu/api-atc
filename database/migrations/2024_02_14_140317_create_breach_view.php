@@ -72,10 +72,9 @@ return new class extends Migration
         END)) - (CASE
             WHEN (WEEKDAY(NOW()) = 5) THEN 1
             ELSE 0
-        END)) > 5)
+        END)) > 5)))
             AND (`sp_requests`.`active` = 1)
-               AND ((`sp_requests`.`estatus` = 'ALTA')
-            OR (`sp_requests`.`estatus` = 'COMPLETA'))))
+                AND ((`sp_requests`.`estatus` NOT IN ('ALTA - FUERA DE TIEMPO','COMPLETA - FUERA DE TIEMPO')))       
     ");
     }
 
