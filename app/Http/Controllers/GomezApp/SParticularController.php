@@ -107,6 +107,11 @@ class SParticularController extends Controller
             if($responseRequest->respuesta == null){
                 $responseRequest->respuesta = $request->response;
                 $responseRequest->respuesta_at = now();
+                if($request->tipoDocumento == 'CONOCIMIENTO'){
+                    $responseRequest->completado = 1;
+                    $responseRequest->completado_at = now();
+                    $responseRequest->estatus = "COMPLETA";
+                }
                 if($responseRequest->img_attach_1 != null){
                     $responseRequest->completado = 1;
                     $responseRequest->completado_at = now();
