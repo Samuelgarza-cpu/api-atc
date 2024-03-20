@@ -333,12 +333,12 @@ class SParticularController extends Controller
         $data = ReporteIncumplimiento::all();
         return response()->json($data);
     }
-    public function changeIncumplimiento(Response $response, $id){
+    public function changeIncumplimiento(Request $request,Response $response){
         $response->data = ObjResponse::DefaultResponse();
         try {
 
-                $incumplimientoReport = SParticular::find($id);
-                $incumplimientoReport->estatus =  $incumplimientoReport->estatus.' - '.'FUERA DE TIEMPO';
+                $incumplimientoReport = SParticular::find($request->idReporte);
+                $incumplimientoReport->estatus =  $request->titulo;
                 $incumplimientoReport->save();
             
             $response->data = ObjResponse::CorrectResponse();

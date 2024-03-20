@@ -139,5 +139,5 @@ Route::middleware('auth:sanctum')->group(function () {
 
    Route::get('/getImg64', [SParticularController::class, 'getImg64']);
    Route::get('/reporte/incumplimiento', [SParticularController::class, 'getIncumplimiento']);
-   Route::get('/reporte/incumplimiento/{id}', [SParticularController::class, 'changeIncumplimiento']);
+   Route::post('/reporte/incumplimiento', [SParticularController::class, 'changeIncumplimiento']);
 });
