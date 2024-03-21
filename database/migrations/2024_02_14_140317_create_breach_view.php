@@ -51,14 +51,13 @@ return new class extends Migration
         JOIN `departments` ON ((`departments`.`id` = `sp_requests`.`id_departamento_destino`)))
         JOIN `asuntos` ON ((`sp_requests`.`id_asunto` = `asuntos`.`id`)))
     WHERE
-        ((
-             (((((TO_DAYS(`sp_requests`.`completado_at`) - TO_DAYS(`sp_requests`.`created_at`)) - ((WEEK(`sp_requests`.`completado_at`, 0) - WEEK(`sp_requests`.`created_at`, 0)) * 2)) - (CASE
+        (((((((TO_DAYS(`sp_requests`.`completado_at`) - TO_DAYS(`sp_requests`.`created_at`)) - ((WEEK(`sp_requests`.`completado_at`, 0) - WEEK(`sp_requests`.`created_at`, 0)) * 2)) - (CASE
             WHEN (WEEKDAY(`sp_requests`.`created_at`) = 6) THEN 1
             ELSE 0
         END)) - (CASE
             WHEN (WEEKDAY(`sp_requests`.`completado_at`) = 5) THEN 1
             ELSE 0
-        END)) > 5))
+        END)) > 5)
             OR ((((((TO_DAYS(`sp_requests`.`completado_at`) - TO_DAYS(`sp_requests`.`created_at`)) - ((WEEK(`sp_requests`.`completado_at`, 0) - WEEK(`sp_requests`.`created_at`, 0)) * 2)) - (CASE
             WHEN (WEEKDAY(`sp_requests`.`created_at`) = 6) THEN 1
             ELSE 0
@@ -74,7 +73,7 @@ return new class extends Migration
             ELSE 0
         END)) > 5)))
             AND (`sp_requests`.`active` = 1)
-                AND ((`sp_requests`.`estatus` NOT IN ('ALTA - FUERA DE TIEMPO','COMPLETA - FUERA DE TIEMPO')))       
+            AND (`sp_requests`.`estatus` = 'ALTA'))   
     ");
     }
 
