@@ -29,6 +29,20 @@ class ServiceController extends Controller
         }
         return response()->json($response, $response->data["status_code"]);
     }
+    public function selectIndex(Response $response)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            $list = Services::select('servicios.id as id', 'servicios.servicio as label')
+                ->orderBy('servicios.servicio', 'asc')->get();
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'Peticion satisfactoria. Lista de servicio:';
+            $response->data["result"] = $list;
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
 
     /**
      * Show the form for creating a new resource.

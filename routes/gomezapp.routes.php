@@ -98,6 +98,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
    Route::controller(ServiceController::class)->group(function () {
       Route::get('/services', 'index');
+      Route::get('/services/selectIndex', 'selectIndex');
    });
 
    Route::controller(OrigenController::class)->group(function () {
