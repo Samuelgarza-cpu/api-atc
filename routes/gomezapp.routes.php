@@ -124,7 +124,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
    Route::controller(UsuariosDepController::class)->group(function () {
       Route::get('/usuariosdep', 'index');
+      Route::post('/usuariosdep', 'store');
       Route::get('/usuariosdep/{id}', 'indexById');
+      Route::get('/usuariosdep/destroy/{id}', 'destroy');
    });
    Route::get('/sprequest', [SParticularController::class, 'index']);
    Route::get('/sprequest/xestatus', [SParticularController::class, 'solicitudesxestatus']);

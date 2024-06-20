@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class UsuariosDep extends Model
 {
     protected $connection = 'mysql_gomezapp';
-    protected $table = 'usuarios_departamentos';
+    protected $table = 'userdep';
 
-    protected $hidden = [
-        'created_at',
-        'updated_at',
-        'id',
-        'user_id'
-    ];
+    // protected $hidden = [
+    //     'created_at',
+    //     'updated_at',
+    //     'id',
+    //     'user_id'
+    // ];
 }
