@@ -154,7 +154,7 @@ class UserController extends Controller
       try {
 
          // $list = User::where('users.active', true)->where("role_id", ">=", $role_id)
-        //  $list = User::where('users.active', true)
+         //  $list = User::where('users.active', true)
          $list = User::join('roles', 'role_id', '=', 'roles.id')
             ->select("users.*", "roles.role", "roles.read")
             ->get();
@@ -253,11 +253,11 @@ class UserController extends Controller
       try {
 
 
-        // $duplicate = $this->validateAvailableData($request->email, $request->phone, $request->curp, $request->id);
-        //  if ($duplicate["result"] == true) {
-        //     $response->data = $duplicate;
-        //     return response()->json($response);
-        //  }
+         // $duplicate = $this->validateAvailableData($request->email, $request->phone, $request->curp, $request->id);
+         //  if ($duplicate["result"] == true) {
+         //     $response->data = $duplicate;
+         //     return response()->json($response);
+         //  }
 
          $user = User::find($request->id)
             ->update([
@@ -309,13 +309,17 @@ class UserController extends Controller
       try {
          $updatePass = User::find($id);
 
-         $updatePass->password = Hash::make($request->password);;
-         $updatePass->updated_at = date('Y-m-d H:i:s');
-         $updatePass->save();
+         if (Hash::check($request->oldPassword, $updatePass->password)) {
+            $updatePass->password = Hash::make($request->newPassword);;
+            $updatePass->updated_at = date('Y-m-d H:i:s');
+            $updatePass->save();
 
-         $response->data = ObjResponse::CorrectResponse();
-         $response->data["message"] = 'peticion satisfactoria | Contraseña Actualizada';
-         $response->data["alert_text"] = "Contraseña Actualizada";
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'peticion satisfactoria | Contraseña Actualizada';
+            $response->data["alert_text"] = "Contraseña Actualizada";
+         } else {
+            $response->data = ObjResponse::updatePass("contraseña incorrecta");
+         }
       } catch (\Exception $ex) {
          $response->data = ObjResponse::CatchResponse($ex->getMessage());
       }
@@ -323,13 +327,6 @@ class UserController extends Controller
    }
 
 
-   /**
-     * Eliminar usuario o usuarios.
-     *
-     * @param  int $id
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response $response
-   */
    public function destroyMultiple(Request $request, Response $response)
    {
       $response->data = ObjResponse::DefaultResponse();
@@ -338,9 +335,9 @@ class UserController extends Controller
          // $deleteIds = explode(',', $ids);
          $countDeleted = sizeof($request->ids);
          User::whereIn('id', $request->ids)->update([
-               'active' => false,
-               'deleted_at' => date('Y-m-d H:i:s'),
-            ]);
+            'active' => false,
+            'deleted_at' => date('Y-m-d H:i:s'),
+         ]);
          $response->data = ObjResponse::CorrectResponse();
          $response->data["message"] = $countDeleted == 1 ? 'peticion satisfactoria | usuario eliminado.' : "peticion satisfactoria | usuarios eliminados ($countDeleted).";
          $response->data["alert_text"] = $countDeleted == 1 ? 'Usuario eliminado' : "Usuarios eliminados  ($countDeleted)";
@@ -361,9 +358,9 @@ class UserController extends Controller
       $response->data = ObjResponse::DefaultResponse();
       try {
          User::where('id', $id)
-               ->update([
-                  'active' => (bool)$active
-               ]);
+            ->update([
+               'active' => (bool)$active
+            ]);
 
          $description = $active == "0" ? 'desactivado' : 'reactivado';
          $response->data = ObjResponse::CorrectResponse();

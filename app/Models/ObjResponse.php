@@ -52,4 +52,20 @@ class ObjResponse extends Model
         ];
         return $response;
     }
+
+    public static function updatePass($message)
+    {
+
+        $response = [
+            "status_code" => 200,
+            "status" => true,
+            "message" => $message,
+            "alert_icon" => "error",
+            "alert_title" => "Oppss!",
+            "alert_text" => "CONTRASEÑA ACTUAL INCORRECTA",
+            "result" => 1,
+            "toast" => true,
+        ];
+        return $response;
+    }
 }
