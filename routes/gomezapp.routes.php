@@ -12,6 +12,7 @@ use App\Http\Controllers\GomezApp\appController;
 use App\Http\Controllers\GomezApp\MenuController;
 use App\Http\Controllers\GomezApp\UsuariosDepController;
 use App\Http\Controllers\GomezApp\SParticularController;
+use App\Http\Controllers\GomezApp\VConcentradoController;
 use Illuminate\Support\Facades\Route;
 
 #region CONTROLLERS
@@ -143,4 +144,6 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::get('/getImg64', [SParticularController::class, 'getImg64']);
    Route::get('/reporte/incumplimiento', [SParticularController::class, 'getIncumplimiento']);
    Route::post('/reporte/incumplimiento', [SParticularController::class, 'changeIncumplimiento']);
+
+   Route::get('/reporte/atc/concentrado', [VConcentradoController::class, 'index']);
 });

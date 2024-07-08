@@ -34,4 +34,4 @@ EN filesystems.php
             'throw' => false,
         ],
 
-        php artisan migrate:refresh --path=/database/migrations/2024_02_14_140317_create_breach_view.php
+        php artisan migrate:refresh --path=/database/migrations/2024_06_20_113801_create_userdep_view.php
