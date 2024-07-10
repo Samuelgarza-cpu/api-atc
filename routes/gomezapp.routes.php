@@ -146,4 +146,5 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::post('/reporte/incumplimiento', [SParticularController::class, 'changeIncumplimiento']);
 
    Route::get('/reporte/atc/concentrado', [VConcentradoController::class, 'index']);
+   Route::post('/reporte/atc/concentrado', [VConcentradoController::class, 'store']);
 });

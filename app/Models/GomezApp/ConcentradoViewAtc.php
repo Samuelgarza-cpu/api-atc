@@ -9,4 +9,5 @@ class ConcentradoViewAtc extends Model
 {
     protected $connection = 'mysql_gomezapp';
     protected $table = 'vw_concentrado_atc';
+    // protected $fillable = ['department', 'asunto', 'fecha_reporte'];
 }
