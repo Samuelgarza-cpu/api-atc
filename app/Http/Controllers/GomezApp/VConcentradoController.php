@@ -56,11 +56,25 @@ class VConcentradoController extends Controller
 
             $resultados = $consulta->get();
             $ResultadoAgrupado = [];
+            $TotalPeticionesGeneral = 0;
+            $TotalPendientesGeneral = 0;
+
             foreach ($resultados as $registro) {
                 $key = $registro->department;
+                $keyAsunto = $registro->asunto;
 
                 if (!isset($ResultadoAgrupado[$key])) {
-                    $ResultadoAgrupado[$key] = [
+                    $ResultadoAgrupado[$key] = [];
+                    $ResultadoAgrupado[$key]['TotalPeticiones'] = 0;
+                    $ResultadoAgrupado[$key]['TotalTERMINADO'] = 0;
+                    $ResultadoAgrupado[$key]['TotalNO_PROCEDE'] = 0;
+                    $ResultadoAgrupado[$key]['TotalEN_TRAMITE'] = 0;
+                    $ResultadoAgrupado[$key]['TotalTOTAL'] = 0;
+                    $ResultadoAgrupado[$key]['TotalPENDIENTES'] = 0;
+                }
+
+                if (!isset($ResultadoAgrupado[$key][$keyAsunto])) {
+                    $ResultadoAgrupado[$key][$keyAsunto] = [
                         'department' => $registro->department,
                         'asunto' => $registro->asunto,
                         'PETICIONES' => $registro->PETICIONES,
@@ -69,23 +83,27 @@ class VConcentradoController extends Controller
                         'EN_TRAMITE' => $registro->EN_TRAMITE,
                         'TOTAL' => $registro->TOTAL,
                         'PENDIENTES' => $registro->PENDIENTES,
-
                     ];
                 } else {
-       
-                    $ResultadoAgrupado[$key]['PETICIONES'] += $registro->PETICIONES;
-                    $ResultadoAgrupado[$key]['TERMINADO'] += $registro->TERMINADO;
-                    $ResultadoAgrupado[$key]['NO_PROCEDE'] += $registro->NO_PROCEDE;
-                    $ResultadoAgrupado[$key]['EN_TRAMITE'] += $registro->EN_TRAMITE;
-                    $ResultadoAgrupado[$key]['TOTAL'] += $registro->TOTAL;
-                    $ResultadoAgrupado[$key]['PENDIENTES'] += $registro->PENDIENTES;
+                    $ResultadoAgrupado[$key][$keyAsunto]['PETICIONES'] += $registro->PETICIONES;
+                    $ResultadoAgrupado[$key][$keyAsunto]['TERMINADO'] += $registro->TERMINADO;
+                    $ResultadoAgrupado[$key][$keyAsunto]['NO_PROCEDE'] += $registro->NO_PROCEDE;
+                    $ResultadoAgrupado[$key][$keyAsunto]['EN_TRAMITE'] += $registro->EN_TRAMITE;
+                    $ResultadoAgrupado[$key][$keyAsunto]['TOTAL'] += $registro->TOTAL;
+                    $ResultadoAgrupado[$key][$keyAsunto]['PENDIENTES'] += $registro->PENDIENTES;
                 }
+                $ResultadoAgrupado[$key]['TotalPeticiones'] += $registro->PETICIONES;
+                $ResultadoAgrupado[$key]['TotalTERMINADO'] += $registro->TERMINADO;
+                $ResultadoAgrupado[$key]['TotalNO_PROCEDE'] += $registro->NO_PROCEDE;
+                $ResultadoAgrupado[$key]['TotalEN_TRAMITE'] += $registro->EN_TRAMITE;
+                $ResultadoAgrupado[$key]['TotalTOTAL'] += $registro->TOTAL;
+                $ResultadoAgrupado[$key]['TotalPENDIENTES'] += $registro->PENDIENTES;
+                $TotalPeticionesGeneral += $registro->PETICIONES;
+                $TotalPendientesGeneral += $registro->PENDIENTES;
             }
+            $ResultadoAgrupado['TotalPeticionesGeneral'] = $TotalPeticionesGeneral;
+            $ResultadoAgrupado['TotalPendientesGeneral'] = $TotalPendientesGeneral;
 
-            return $ResultadoAgrupado;
-
-            // Convertimos el array asociativo en un array de objetos
-            // $ResultadoAgrupado = array_values($ResultadoAgrupado);
 
             return response()->json([
                 'success' => true,
