@@ -97,6 +97,7 @@ class ReportController extends Controller
 
 
                     $reports = new Report;
+                    $reports->id_user_create = $request->id_user_create;
                     $reports->fecha_reporte = $request->fecha;
                     $reports->folio =  $cadena_aleatoria;
                     $reports->id_user = $users->id;
