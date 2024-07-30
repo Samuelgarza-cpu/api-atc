@@ -250,23 +250,19 @@ class ReportController extends Controller
         $response->data = ObjResponse::DefaultResponse();
         $id = (int)$request->idReport;
         try {
-            if ($request->estatus == 3 || $request->estatus == 4) {
-                $responseR = new ResponseR;
-                $responseR->id_reporte = $request->idReport;
-                $responseR->respuesta = $request->response;
-                $responseR->fecha_respuesta = now();
-                $responseR->save();
-
-                $updateEstatus = Report::find($id);
-                $updateEstatus->id_estatus = $request->estatus;
-                $updateEstatus->save();
-            } else {
-                $updateEstatus = Report::find($id);
-                $updateEstatus->id_estatus = $request->estatus;
-                $updateEstatus->save();
+            $exiteRespuesta = ResponseR::where('id_reporte', $id)->first();
+            if ($exiteRespuesta) {
+                $exiteRespuesta->delete();
             }
+            $responseR = new ResponseR;
+            $responseR->id_reporte = $request->idReport;
+            $responseR->respuesta = $request->response;
+            $responseR->fecha_respuesta = now();
+            $responseR->save();
 
-
+            $updateEstatus = Report::find($id);
+            $updateEstatus->id_estatus = $request->estatus;
+            $updateEstatus->save();
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | usuario eliminado.';

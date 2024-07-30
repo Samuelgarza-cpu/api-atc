@@ -9,4 +9,5 @@ class ResponseR extends Model
 {
     protected $connection = 'mysql_gomezapp';
     protected $table = 'reportes_respuestas';
+    protected $primaryKey = 'id_reporte';
 }
