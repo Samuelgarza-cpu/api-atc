@@ -85,6 +85,9 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::post('/reports/response/{id}', 'deleteResponse');
       Route::get('/reports/user/{id_user}', 'reportsByUser');
       Route::get('/reports/{id}', 'reportsById');
+      Route::get('/reports/show/{id}', 'show');
+      Route::get('/reports/validarE/{id}', 'validarEvidencia');
+      Route::post('/reports/imgsAttach/{id}', 'attachImgs');
    });
 
    Route::controller(TipoReporteController::class)->group(function () {

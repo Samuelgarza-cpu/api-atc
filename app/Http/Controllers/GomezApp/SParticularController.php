@@ -30,7 +30,7 @@ class SParticularController extends Controller
             'calle' => 'required|string|max:255',
             'id_departamento_destino' => 'required',
             'id_asunto' => 'required'
-        
+
         ]);
 
         // $longitud_cadena = 5;
@@ -38,10 +38,10 @@ class SParticularController extends Controller
         // $caracter_alfabetico = $caracteres_alfabeticos[mt_rand(0, strlen($caracteres_alfabeticos) - 1)];
         // $numeros = mt_rand(pow(10, $longitud_cadena - 2), pow(10, $longitud_cadena - 1) - 1);
         // $cadena_aleatoria = $caracter_alfabetico . $numeros;
-        $nomenclatura ='CC-SP';
+        $nomenclatura = 'CC-SP';
         $registros = SParticular::all()->count();
         $folioSiguiente = $registros + 1;
-        $numDocumento = $nomenclatura."/".$folioSiguiente."/".date('Y');
+        $numDocumento = $nomenclatura . "/" . $folioSiguiente . "/" . date('Y');
 
         try {
             $response->data = ObjResponse::DefaultResponse();
@@ -68,7 +68,7 @@ class SParticularController extends Controller
             $reports->tipo_documento = $request->tipo_documento;
             $reports->observaciones = $request->observaciones;
             $reports->id_user_create = $request->id_user_create;
-   
+
             $reports->save();
 
 
@@ -104,26 +104,26 @@ class SParticularController extends Controller
         try {
             $responseRequest = SParticular::find($id);
 
-            if($responseRequest->respuesta == null){
+            if ($responseRequest->respuesta == null) {
                 $responseRequest->respuesta = $request->response;
                 $responseRequest->respuesta_at = now();
-                if($request->tipoDocumento == 'CONOCIMIENTO'){
+                if ($request->tipoDocumento == 'CONOCIMIENTO') {
                     $responseRequest->completado = 1;
                     $responseRequest->completado_at = now();
                     $responseRequest->estatus = "COMPLETA";
                 }
-                if($responseRequest->img_attach_1 != null){
+                if ($responseRequest->img_attach_1 != null) {
                     $responseRequest->completado = 1;
                     $responseRequest->completado_at = now();
-                    if($responseRequest->estatus == 'ALTA - FUERA DE TIEMPO'){
+                    if ($responseRequest->estatus == 'ALTA - FUERA DE TIEMPO') {
                         $responseRequest->estatus = "COMPLETA - FUERA DE TIEMPO";
-                    }else{
+                    } else {
                         $responseRequest->estatus = "COMPLETA";
                     }
                 }
                 $responseRequest->save();
             }
-       
+
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | Respuesta almacenada.';
@@ -134,15 +134,12 @@ class SParticularController extends Controller
         }
         return response()->json($response, $response->data["status_code"]);
     }
-    public function show(Response $response, $id,$user_role_id)
+    public function show(Response $response, $id, $user_role_id)
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-
-
             $list = SpRequests::where("id", $id)->first();
-          
-            if($user_role_id == 4 && $list->visto != 1 ){
+            if ($user_role_id == 4 && $list->visto != 1) {
                 $vistoReport = SParticular::find($id);
                 $vistoReport->visto = 1;
                 $vistoReport->visto_at = now();
@@ -203,79 +200,74 @@ class SParticularController extends Controller
         $response = SpRequests::whereIn("id_departamento_destino", $array)->get();
         return response()->json($response);
     }
-    public function attachImgs(Request $request, Response $response,$id)
+    public function attachImgs(Request $request, Response $response, $id)
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-       
-                $responseRequest = SParticular::find($id);
-        
-                if($responseRequest){
-                    $img_attach_1 = $this->ImageUp($request, 'img_attach_1', $id, 'evidencia-1', false, "sinEvidencia.png");
-                    $img_attach_2 = $this->ImageUp($request, 'img_attach_2', $id, 'evidencia-2', false, "sinEvidencia.png");
-                    $img_attach_3 = $this->ImageUp($request, 'img_attach_3', $id, 'evidencia-3', false, "sinEvidencia.png");
-                    $img_attach_4 = $this->ImageUp($request, 'img_attach_4', $id, 'evidencia-4', false, "sinEvidencia.png");
-                    $img_attach_5 = $this->ImageUp($request, 'img_attach_5', $id, 'evidencia-5', false, "sinEvidencia.png");
-                      
-                    if ($request->hasFile('img_attach_1') || $request->img_attach_1 == "") $responseRequest->img_attach_1 = $img_attach_1;
-                    if ($request->hasFile('img_attach_2') || $request->img_attach_2 == "") $responseRequest->img_attach_2 = $img_attach_2;
-                    if ($request->hasFile('img_attach_3') || $request->img_attach_3 == "") $responseRequest->img_attach_3 = $img_attach_3;
-                    if ($request->hasFile('img_attach_4') || $request->img_attach_4 == "") $responseRequest->img_attach_4 = $img_attach_4;
-                    if ($request->hasFile('img_attach_5') || $request->img_attach_5 == "") $responseRequest->img_attach_5 = $img_attach_5;
 
-                    if($responseRequest->img_attach_1 != null){
-                        if($responseRequest->respuesta != null){
-                            $responseRequest->completado = 1;
-                            $responseRequest->completado_at = now();
-                            if($responseRequest->estatus == 'ALTA - FUERA DE TIEMPO'){
-                                $responseRequest->estatus = "COMPLETA - FUERA DE TIEMPO";
-                            }else{
-                                $responseRequest->estatus = "COMPLETA";
-                            }
+            $responseRequest = SParticular::find($id);
+
+            if ($responseRequest) {
+                $img_attach_1 = $this->ImageUp($request, 'img_attach_1', $id, 'evidencia-1', false, "sinEvidencia.png");
+                $img_attach_2 = $this->ImageUp($request, 'img_attach_2', $id, 'evidencia-2', false, "sinEvidencia.png");
+                $img_attach_3 = $this->ImageUp($request, 'img_attach_3', $id, 'evidencia-3', false, "sinEvidencia.png");
+                $img_attach_4 = $this->ImageUp($request, 'img_attach_4', $id, 'evidencia-4', false, "sinEvidencia.png");
+                $img_attach_5 = $this->ImageUp($request, 'img_attach_5', $id, 'evidencia-5', false, "sinEvidencia.png");
+
+                if ($request->hasFile('img_attach_1') || $request->img_attach_1 == "") $responseRequest->img_attach_1 = $img_attach_1;
+                if ($request->hasFile('img_attach_2') || $request->img_attach_2 == "") $responseRequest->img_attach_2 = $img_attach_2;
+                if ($request->hasFile('img_attach_3') || $request->img_attach_3 == "") $responseRequest->img_attach_3 = $img_attach_3;
+                if ($request->hasFile('img_attach_4') || $request->img_attach_4 == "") $responseRequest->img_attach_4 = $img_attach_4;
+                if ($request->hasFile('img_attach_5') || $request->img_attach_5 == "") $responseRequest->img_attach_5 = $img_attach_5;
+
+                if ($responseRequest->img_attach_1 != null) {
+                    if ($responseRequest->respuesta != null) {
+                        $responseRequest->completado = 1;
+                        $responseRequest->completado_at = now();
+                        if ($responseRequest->estatus == 'ALTA - FUERA DE TIEMPO') {
+                            $responseRequest->estatus = "COMPLETA - FUERA DE TIEMPO";
+                        } else {
+                            $responseRequest->estatus = "COMPLETA";
                         }
                     }
-
-                   
-                    $responseRequest->save();
-
                 }
+
+
+                $responseRequest->save();
+            }
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | Respuesta almacenada.';
             $response->data["alert_text"] = "Respuesta Almacenada";
-
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }
         return response()->json($response, $response->data["status_code"]);
     }
-    public function stationeryImgs(Request $request, Response $response,$id)
+    public function stationeryImgs(Request $request, Response $response, $id)
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-       
-                $responseRequest = SParticular::find($id);
-        
-                if($responseRequest){
-                    $img_stationery_1 = $this->imageUpStationery($request, 'img_stationery_1', $id, 'papeleria-1', false, "sinpapeleria.png");
-                    $img_stationery_2 = $this->imageUpStationery($request, 'img_stationery_2', $id, 'papeleria-2', false, "sinpapeleria.png");
-                    $img_stationery_3 = $this->imageUpStationery($request, 'img_stationery_3', $id, 'papeleria-3', false, "sinpapeleria.png");
-                    $img_stationery_4 = $this->imageUpStationery($request, 'img_stationery_4', $id, 'papeleria-4', false, "sinpapeleria.png");
-                    $img_stationery_5 = $this->imageUpStationery($request, 'img_stationery_5', $id, 'papeleria-5', false, "sinpapeleria.png");
-                      
-                    if ($request->hasFile('img_stationery_1') || $request->img_stationery_1 == "") $responseRequest->img_stationery_1 = $img_stationery_1;
-                    if ($request->hasFile('img_stationery_2') || $request->img_stationery_2 == "") $responseRequest->img_stationery_2 = $img_stationery_2;
-                    if ($request->hasFile('img_stationery_3') || $request->img_stationery_3 == "") $responseRequest->img_stationery_3 = $img_stationery_3;
-                    if ($request->hasFile('img_stationery_4') || $request->img_stationery_4 == "") $responseRequest->img_stationery_4 = $img_stationery_4;
-                    if ($request->hasFile('img_stationery_5') || $request->img_stationery_5 == "") $responseRequest->img_stationery_5 = $img_stationery_5;
 
-                    $responseRequest->save();
-                    $response->data = ObjResponse::CorrectResponse();
-                    $response->data["message"] = 'peticion satisfactoria | Respuesta almacenada.';
-                    $response->data["alert_text"] = "Respuesta Almacenada";
-        
+            $responseRequest = SParticular::find($id);
 
-                }
-           
+            if ($responseRequest) {
+                $img_stationery_1 = $this->imageUpStationery($request, 'img_stationery_1', $id, 'papeleria-1', false, "sinpapeleria.png");
+                $img_stationery_2 = $this->imageUpStationery($request, 'img_stationery_2', $id, 'papeleria-2', false, "sinpapeleria.png");
+                $img_stationery_3 = $this->imageUpStationery($request, 'img_stationery_3', $id, 'papeleria-3', false, "sinpapeleria.png");
+                $img_stationery_4 = $this->imageUpStationery($request, 'img_stationery_4', $id, 'papeleria-4', false, "sinpapeleria.png");
+                $img_stationery_5 = $this->imageUpStationery($request, 'img_stationery_5', $id, 'papeleria-5', false, "sinpapeleria.png");
+
+                if ($request->hasFile('img_stationery_1') || $request->img_stationery_1 == "") $responseRequest->img_stationery_1 = $img_stationery_1;
+                if ($request->hasFile('img_stationery_2') || $request->img_stationery_2 == "") $responseRequest->img_stationery_2 = $img_stationery_2;
+                if ($request->hasFile('img_stationery_3') || $request->img_stationery_3 == "") $responseRequest->img_stationery_3 = $img_stationery_3;
+                if ($request->hasFile('img_stationery_4') || $request->img_stationery_4 == "") $responseRequest->img_stationery_4 = $img_stationery_4;
+                if ($request->hasFile('img_stationery_5') || $request->img_stationery_5 == "") $responseRequest->img_stationery_5 = $img_stationery_5;
+
+                $responseRequest->save();
+                $response->data = ObjResponse::CorrectResponse();
+                $response->data["message"] = 'peticion satisfactoria | Respuesta almacenada.';
+                $response->data["alert_text"] = "Respuesta Almacenada";
+            }
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }
@@ -321,26 +313,28 @@ class SParticularController extends Controller
         $rutaImagen = "$dir/1/1-evidencia-1.PNG";
 
         // if (File::exists($rutaImagen)) {
-            $imagenBytes = file_get_contents($rutaImagen);
-            $imagenBase64 = base64_encode($imagenBytes);
+        $imagenBytes = file_get_contents($rutaImagen);
+        $imagenBase64 = base64_encode($imagenBytes);
 
-            return response()->json(['base64Image' => $imagenBase64]);
+        return response()->json(['base64Image' => $imagenBase64]);
         // } else {
         //     return response()->json(['error' => 'Imagen no encontrada'], 404);
         // }
     }
-    public function getIncumplimiento(){
+    public function getIncumplimiento()
+    {
         $data = ReporteIncumplimiento::all();
         return response()->json($data);
     }
-    public function changeIncumplimiento(Request $request,Response $response){
+    public function changeIncumplimiento(Request $request, Response $response)
+    {
         $response->data = ObjResponse::DefaultResponse();
         try {
 
-                $incumplimientoReport = SParticular::find($request->idReporte);
-                $incumplimientoReport->estatus =  $request->titulo;
-                $incumplimientoReport->save();
-            
+            $incumplimientoReport = SParticular::find($request->idReporte);
+            $incumplimientoReport->estatus =  $request->titulo;
+            $incumplimientoReport->save();
+
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria ';
             $response->data["result"] = $incumplimientoReport;
@@ -349,7 +343,8 @@ class SParticularController extends Controller
         }
         return response()->json($response, $response->data["status_code"]);
     }
-    public function solicitudesxestatus(Response $response){
+    public function solicitudesxestatus(Response $response)
+    {
 
 
         $response->data = ObjResponse::DefaultResponse();
@@ -364,7 +359,8 @@ class SParticularController extends Controller
         return response()->json($response, $response->data["status_code"]);
     }
 
-    public function requestdepartmentstatus(Response $response){
+    public function requestdepartmentstatus(Response $response)
+    {
 
 
         $response->data = ObjResponse::DefaultResponse();
