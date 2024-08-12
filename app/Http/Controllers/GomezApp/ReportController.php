@@ -34,16 +34,16 @@ class ReportController extends Controller
             return response()->json($response);
         } else {
 
-            return response()->json(['Error' => 'Token Invalido'], 401);
+            return response()->json(['response' => 'Token Invalido'], 401);
         }
     }
     public function postReportsSP_Movil(Response $response, Request $request)
     {
         $token = env('API_TOKEN');
         if ($request->token == $token) {
-            return response()->json(['data' => $request->input(), 'Success' => 'Token Valido']);
+            return response()->json(['data' => $request->input(), 'response' => 'Token Valido']);
         } else {
-            return response()->json(['Error' => 'Token Invalido'], 401);
+            return response()->json(['response' => 'Token Invalido'], 401);
         }
     }
     public function reportsview(Response $response)
