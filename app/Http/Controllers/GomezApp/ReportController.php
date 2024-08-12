@@ -24,7 +24,7 @@ class ReportController extends Controller
         $response = Report::all();
         return response()->json($response);
     }
-    public function getReportsSP(Response $response, Request $request)
+    public function getReportsSP_Movil(Response $response, Request $request)
     {
         $token = env('API_TOKEN');
         $tokenIn = $request->bearerToken();
@@ -37,11 +37,11 @@ class ReportController extends Controller
             return response()->json(['Error' => 'Token Invalido'], 401);
         }
     }
-    public function postReportsSP(Response $response, Request $request)
+    public function postReportsSP_Movil(Response $response, Request $request)
     {
         $token = env('API_TOKEN');
         if ($request->token == $token) {
-            return response()->json(['Success' => 'Token Valido']);
+            return response()->json(['data' => $request->input(), 'Success' => 'Token Valido']);
         } else {
             return response()->json(['Error' => 'Token Invalido'], 401);
         }

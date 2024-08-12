@@ -26,8 +26,8 @@ Route::post('/login', [UserController::class, 'login']);
 Route::post('/signup', [UserController::class, 'signup']);
 Route::post('/users', [UserController::class, 'create']);
 Route::post('/users/recovery', [UserController::class, 'recovery']);
-Route::get('/reports/sp', [ReportController::class, 'getReportsSP']);
-Route::post('/reports/sp', [ReportController::class, 'postReportsSP']);
+Route::get('/reports/sp', [ReportController::class, 'getReportsSP_Movil']);
+Route::post('/reports/sp', [ReportController::class, 'postReportsSP_Movil']);
 Route::middleware('auth:sanctum')->group(function () {
    // Route::get('/getUser/{token}', [UserController::class,'getUser']); //cerrar sesión (eliminar los tokens creados)
    Route::post('/logout/{id}', [UserController::class, 'logout']); //cerrar sesión (eliminar los tokens creados)
