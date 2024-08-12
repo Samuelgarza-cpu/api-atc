@@ -157,6 +157,7 @@ class UserController extends Controller
          //  $list = User::where('users.active', true)
          $list = User::join('roles', 'role_id', '=', 'roles.id')
             ->select("users.*", "roles.role", "roles.read")
+            ->whereNotNull('users.email')
             ->get();
 
          $response->data = ObjResponse::CorrectResponse();
