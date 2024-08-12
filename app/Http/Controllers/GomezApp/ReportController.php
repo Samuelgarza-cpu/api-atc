@@ -30,7 +30,7 @@ class ReportController extends Controller
         $tokenIn = $request->bearerToken();
 
         if ($token == $tokenIn) {
-            $response = Report::all();
+            $response = ReportView::all();
             return response()->json($response);
         } else {
 
