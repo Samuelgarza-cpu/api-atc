@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 
+
 Route::prefix('gomezapp')->group(function () {
     Route::get('/', function () {
         return 'API GomezApp';

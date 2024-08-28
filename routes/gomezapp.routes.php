@@ -9,6 +9,7 @@ use App\Http\Controllers\GomezApp\TipoReporteController;
 use App\Http\Controllers\GomezApp\ServiceController;
 use App\Http\Controllers\GomezApp\AsuntosDepController;
 use App\Http\Controllers\GomezApp\appController;
+use App\Http\Controllers\GomezApp\AtcAppController;
 use App\Http\Controllers\GomezApp\MenuController;
 use App\Http\Controllers\GomezApp\UsuariosDepController;
 use App\Http\Controllers\GomezApp\SParticularController;
@@ -28,6 +29,10 @@ Route::post('/users', [UserController::class, 'create']);
 Route::post('/users/recovery', [UserController::class, 'recovery']);
 Route::get('/reports/sp', [ReportController::class, 'getReportsSP_Movil']);
 Route::post('/reports/sp', [ReportController::class, 'postReportsSP_Movil']);
+
+
+
+// RUTAS PROTEGIDAS --------------------------------------------------------
 Route::middleware('auth:sanctum')->group(function () {
    // Route::get('/getUser/{token}', [UserController::class,'getUser']); //cerrar sesión (eliminar los tokens creados)
    Route::post('/logout/{id}', [UserController::class, 'logout']); //cerrar sesión (eliminar los tokens creados)
@@ -74,7 +79,6 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::post('/departments/destroy/{id}', 'destroy');
    });
 
-
    Route::controller(ReportController::class)->group(function () {
       Route::get('/reports', 'index');
       Route::post('/reports/id/{id}', 'destroy');
@@ -90,6 +94,12 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::get('/reports/validarE/{id}', 'validarEvidencia');
       Route::post('/reports/imgsAttach/{id}', 'attachImgs');
    });
+
+
+   Route::controller(AtcAppController::class)->group(function () {
+      Route::get('/app/reportes', 'index');
+   });
+
 
    Route::controller(TipoReporteController::class)->group(function () {
       Route::get('/reportTypes', 'index');
