@@ -98,6 +98,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
    Route::controller(AtcAppController::class)->group(function () {
       Route::get('/app/reportes', 'index');
+      Route::post('/app/reportes', 'saveAppReports');
    });
 
 
