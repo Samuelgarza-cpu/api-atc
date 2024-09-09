@@ -175,12 +175,13 @@ class AtcAppController extends Controller
         // $response->data = ObjResponse::DefaultResponse();
         // $result = [];
         // try {
-        //     $imgName = "";
-        //     if ($request->hasFile('imgFile')) {
-        //         $image = $request->file('imgFile');
-        //         $imgName = time() . '.' . $image->getClientOriginalExtension();
-        //         $image->move(public_path('GomezApp/appEvidencias'), $imgName);
-        //     }
+
+        $imgName = "";
+        if ($request->hasFile('imgFile')) {
+            $image = $request->file('imgFile');
+            $imgName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('GomezApp/appEvidencias'), $imgName);
+        }
 
 
         //     $reports = new Report;
@@ -204,10 +205,15 @@ class AtcAppController extends Controller
         //     $reportsAsunt2->id_asunto = $request->id_asunto;
         //     $reportsAsunt2->observaciones = $request->comentarios;
         //     $reportsAsunt2->save();
+        $retorno = [
+            $imagen => $imgName,
+            $referencia => $request->referencias,
+            $comentarios => $request->comentarios
+        ];
 
         $response->data = ObjResponse::CorrectResponse();
         $response->data["message"] = 'Peticion satisfactoria | Lista de mis reportes.';
-        $response->data["result"] = $request->all();
+        $response->data["result"] = $retorno;
         // } catch (\Exception $ex) {
         //     $response->data = ObjResponse::CatchResponse($ex->getMessage());
         // }

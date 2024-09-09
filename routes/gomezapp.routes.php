@@ -130,7 +130,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
    Route::controller(appController::class)->group(function () {
       Route::get('/asuntos', 'index');
-      //   Route::post('/asuntos', 'store');
+      // Route::post('/asuntos', 'store');
       Route::get('/asuntos/selectIndex', 'selectIndex');
       Route::get('/asuntos/{id}', 'show');
       Route::post('/asuntos/create', 'createOrUpdate');
