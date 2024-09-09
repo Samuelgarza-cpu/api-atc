@@ -4,6 +4,7 @@ namespace App\Http\Controllers\GomezApp;
 
 use App\Http\Controllers\Controller;
 use App\Models\GomezApp\Report;
+use App\Models\GomezApp\ReportAsuntos;
 use App\Models\GomezApp\ResponseR;
 use App\Models\ObjResponse;
 use Illuminate\Http\Request;
