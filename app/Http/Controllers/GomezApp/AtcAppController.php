@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\GomezApp;
 
 use App\Http\Controllers\Controller;
+use App\Models\GomezApp\Report;
+use App\Models\GomezApp\ResponseR;
 use App\Models\ObjResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -147,7 +149,9 @@ class AtcAppController extends Controller
 
     public function saveAppReports(Request $request, Response $response)
     {
-
+        $request->validate([
+            'imgFile' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:10240', // máximo 10MB
+        ]);
 
         // $latitud = "";
         // $longitud = "";
@@ -166,57 +170,54 @@ class AtcAppController extends Controller
         //     }
         // }
 
-        // $longitud_cadena = 5;
-        // $caracteres_alfabeticos = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        // $caracter_alfabetico = $caracteres_alfabeticos[mt_rand(0, strlen($caracteres_alfabeticos) - 1)];
-        // $numeros = mt_rand(pow(10, $longitud_cadena - 2), pow(10, $longitud_cadena - 1) - 1);
-        // $cadena_aleatoria = $caracter_alfabetico . $numeros;
+        $longitud_cadena = 5;
+        $caracteres_alfabeticos = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $caracter_alfabetico = $caracteres_alfabeticos[mt_rand(0, strlen($caracteres_alfabeticos) - 1)];
+        $numeros = mt_rand(pow(10, $longitud_cadena - 2), pow(10, $longitud_cadena - 1) - 1);
+        $cadena_aleatoria = $caracter_alfabetico . $numeros;
 
-        // $response->data = ObjResponse::DefaultResponse();
-        // $result = [];
-        // try {
+        $response->data = ObjResponse::DefaultResponse();
+        $result = [];
+        try {
 
-        $imgName = "";
-        if ($request->hasFile('imgFile')) {
-            $image = $request->file('imgFile');
-            $imgName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('GomezApp/appEvidencias'), $imgName);
+
+            $imgName = "";
+            if ($request->hasFile('imgFile')) {
+                $image = $request->file('imgFile');
+                $imgName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('GomezApp/appEvidencias'), $imgName);
+            }
+
+
+            $reports = new Report;
+            $reports->fecha_reporte = $request->fecha_reporte;
+            $reports->img_reporte = "GomezApp/appEvidencias/$imgName";
+            $reports->folio = $cadena_aleatoria;
+            $reports->latitud = $request->latitud;
+            $reports->longitud = $request->longitud;
+            $reports->id_user = $request->id_user;
+            $reports->id_departamento = $request->id_departamento;
+            $reports->id_estatus = 1;
+            $reports->id_origen = 3;
+            $reports->referencias = $request->referencias;
+            $reports->created_at = now();
+            $reports->save();
+
+
+            $reportsAsunt2 = new ReportAsuntos();
+            $reportsAsunt2->id_reporte = $reports->id;
+            $reportsAsunt2->id_servicio = 1;
+            $reportsAsunt2->id_asunto = $request->id_asunto;
+            $reportsAsunt2->observaciones = $request->comentarios;
+            $reportsAsunt2->save();
+
+
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'Peticion satisfactoria | Lista de mis reportes.';
+            $response->data["result"] = [];
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }
-
-
-        //     $reports = new Report;
-        //     $reports->fecha_reporte = $request->fecha_reporte;
-        //     $reports->img_reporte = "GomezApp/appEvidencias/$imgName";
-        //     $reports->folio = $cadena_aleatoria;
-        //     $reports->latitud = $request->latitud;
-        //     $reports->longitud = $request->longitud;
-        //     $reports->id_user = $request->id_user;
-        //     $reports->id_departamento = $request->id_departamento;
-        //     $reports->id_estatus = 1;
-        //     $reports->id_origen = 3;
-        //     $reports->referencias = $request->referencias;
-        //     $reports->created_at = now();
-        //     $reports->save();
-
-
-        //     $reportsAsunt2 = new ReportAsuntos();
-        //     $reportsAsunt2->id_reporte = $reports->id;
-        //     $reportsAsunt2->id_servicio = 1;
-        //     $reportsAsunt2->id_asunto = $request->id_asunto;
-        //     $reportsAsunt2->observaciones = $request->comentarios;
-        //     $reportsAsunt2->save();
-        $retorno = [
-            "imagen" => $imgName,
-            "referencia" => $request->referencias,
-            "comentarios" => $request->comentarios
-        ];
-
-        $response->data = ObjResponse::CorrectResponse();
-        $response->data["message"] = 'Peticion satisfactoria | Lista de mis reportes.';
-        $response->data["result"] = $retorno;
-        // } catch (\Exception $ex) {
-        //     $response->data = ObjResponse::CatchResponse($ex->getMessage());
-        // }
         return response()->json($response, $response->data["status_code"]);
     }
 }

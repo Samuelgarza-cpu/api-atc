@@ -409,4 +409,40 @@ class ReportController extends Controller
         }
         return response()->json($response, $response->data["status_code"]);
     }
+
+    public function saveResponseSP_Movil(Request $request, Response $response)
+    {
+
+
+        $token = env('API_TOKEN');
+        if ($request->token == $token) {
+            $response->data = ObjResponse::DefaultResponse();
+            $id = (int)$request->idReport;
+            try {
+                $exiteRespuesta = ResponseR::where('id_reporte', $id)->first();
+                if ($exiteRespuesta) {
+                    $exiteRespuesta->delete();
+                }
+                $responseR = new ResponseR;
+                $responseR->id_reporte = $request->idReport;
+                $responseR->respuesta = $request->response;
+                $responseR->fecha_respuesta = now();
+                $responseR->save();
+
+                $updateEstatus = Report::find($id);
+                $updateEstatus->id_estatus = $request->estatus;
+                $updateEstatus->save();
+
+                $response->data = ObjResponse::CorrectResponse();
+                $response->data["message"] = 'peticion satisfactoria | usuario eliminado.';
+                $response->data["alert_text"] = "Respuesta enviada";
+                $response->data["result"] = ["se registro respuesta" =>  $request->idReport];
+            } catch (\Exception $ex) {
+                $response->data = ObjResponse::CatchResponse($ex->getMessage());
+            }
+            return response()->json($response, $response->data["status_code"]);
+        } else {
+            return response()->json(['response' => 'Token Invalido'], 401);
+        }
+    }
 }

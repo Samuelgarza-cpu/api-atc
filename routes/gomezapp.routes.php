@@ -29,6 +29,8 @@ Route::post('/users', [UserController::class, 'create']);
 Route::post('/users/recovery', [UserController::class, 'recovery']);
 Route::get('/reports/sp', [ReportController::class, 'getReportsSP_Movil']);
 Route::post('/reports/sp', [ReportController::class, 'postReportsSP_Movil']);
+Route::post('/app/saveresponse', [ReportController::class, 'saveResponseSP_Movil']);
+
 
 
 
