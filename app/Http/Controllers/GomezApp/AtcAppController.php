@@ -206,9 +206,9 @@ class AtcAppController extends Controller
         //     $reportsAsunt2->observaciones = $request->comentarios;
         //     $reportsAsunt2->save();
         $retorno = [
-            $imagen => $imgName,
-            $referencia => $request->referencias,
-            $comentarios => $request->comentarios
+            "imagen" => $imgName,
+            "referencia" => $request->referencias,
+            "comentarios" => $request->comentarios
         ];
 
         $response->data = ObjResponse::CorrectResponse();
