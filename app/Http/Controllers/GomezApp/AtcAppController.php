@@ -175,8 +175,8 @@ class AtcAppController extends Controller
             }
 
 
-
-            $dataLocation = $request->input('dataLocation');
+            $dataLocation = json_decode($request->input('dataLocation'), true);
+            // $dataLocation = $request->input('dataLocation');
 
             $cp = $dataLocation['ubication']['postalCode'] ?? null;
             $calle = $dataLocation['ubication']['street'] ?? null;
