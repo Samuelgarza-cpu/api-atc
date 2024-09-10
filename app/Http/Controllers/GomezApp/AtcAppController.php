@@ -196,6 +196,7 @@ class AtcAppController extends Controller
             $reports->colonia = $colonia;
             $reports->id_departamento = $request->id_departamento;
             $reports->id_estatus = 1;
+            $reports->id_user_create = $request->id_user;
             $reports->id_origen = 3;
             $reports->referencias = $request->referencias;
             $reports->created_at = now();
