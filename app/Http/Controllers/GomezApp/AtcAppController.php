@@ -161,7 +161,7 @@ class AtcAppController extends Controller
         $caracteres_alfabeticos = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $caracter_alfabetico = $caracteres_alfabeticos[mt_rand(0, strlen($caracteres_alfabeticos) - 1)];
         $numeros = mt_rand(pow(10, $longitud_cadena - 2), pow(10, $longitud_cadena - 1) - 1);
-        $cadena_aleatoria = $caracter_alfabetico . $numeros;
+        $cadena_aleatoria = "APP-" . $caracter_alfabetico . $numeros;
 
         $response->data = ObjResponse::DefaultResponse();
         try {
