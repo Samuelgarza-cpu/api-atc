@@ -150,26 +150,12 @@ class AtcAppController extends Controller
 
     public function saveAppReports(Request $request, Response $response)
     {
+
+
         $request->validate([
             'imgFile' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:10240', // máximo 10MB
         ]);
 
-        // $latitud = "";
-        // $longitud = "";
-        // $lat = $request->latitud == "" ? "" : $request->latitud;
-        // $long = $request->longitud == "" ? "" : $request->longitud;
-        // $url = "";
-        // $pattern = "/[^0-9.-]/";
-        // if ($request->url != "") {
-        //     $url = explode("@", $request->url);
-        //     if ($url[0] == $request->url) {
-        //         $url = "";
-        //     } else {
-        //         $url2 = explode(",", $url[1]);
-        //         $lat = $url2[0];
-        //         $long = $url2[1];
-        //     }
-        // }
 
         $longitud_cadena = 5;
         $caracteres_alfabeticos = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -178,7 +164,6 @@ class AtcAppController extends Controller
         $cadena_aleatoria = $caracter_alfabetico . $numeros;
 
         $response->data = ObjResponse::DefaultResponse();
-        $result = [];
         try {
 
 
@@ -190,6 +175,14 @@ class AtcAppController extends Controller
             }
 
 
+
+            $dataLocation = $request->input('dataLocation');
+
+            $cp = $dataLocation['ubication']['postalCode'] ?? null;
+            $calle = $dataLocation['ubication']['street'] ?? null;
+            $num_ext = $dataLocation['ubication']['streetNumber'] ?? null;
+            $colonia = $dataLocation['ubication']['district'] ?? null;
+
             $reports = new Report;
             $reports->fecha_reporte = $request->fecha_reporte;
             $reports->img_reporte = "GomezApp/appEvidencias/$imgName";
@@ -197,6 +190,10 @@ class AtcAppController extends Controller
             $reports->latitud = $request->latitud;
             $reports->longitud = $request->longitud;
             $reports->id_user = $request->id_user;
+            $reports->cp = $cp;
+            $reports->calle = $calle;
+            $reports->num_ext = $num_ext;
+            $reports->colonia = $colonia;
             $reports->id_departamento = $request->id_departamento;
             $reports->id_estatus = 1;
             $reports->id_origen = 3;
