@@ -238,7 +238,7 @@ class ReportController extends Controller
             $deleteReport->save();
 
             $response->data = ObjResponse::CorrectResponse();
-            $response->data["message"] = 'peticion satisfactoria | usuario eliminado.';
+            $response->data["message"] = 'peticion satisfactoria';
             $response->data["alert_text"] = "Usuario eliminado";
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
@@ -255,10 +255,15 @@ class ReportController extends Controller
 
             $reportFind = Report::find($id);
             $reportFind->id_estatus = 1;
+            $reportFind->img_attach_1 = null;
+            $reportFind->img_attach_2 = null;
+            $reportFind->img_attach_3 = null;
+            $reportFind->img_attach_4 = null;
+            $reportFind->img_attach_5 = null;
             $reportFind->save();
 
             $response->data = ObjResponse::CorrectResponse();
-            $response->data["message"] = 'peticion satisfactoria | usuario eliminado.';
+            $response->data["message"] = 'peticion satisfactoria';
             $response->data["alert_text"] = "Usuario eliminado";
             $response->data["result"] = $deleteResponse;
         } catch (\Exception $ex) {
@@ -287,7 +292,7 @@ class ReportController extends Controller
             $updateEstatus->save();
 
             $response->data = ObjResponse::CorrectResponse();
-            $response->data["message"] = 'peticion satisfactoria | usuario eliminado.';
+            $response->data["message"] = 'peticion satisfactoria';
             $response->data["alert_text"] = "Respuesta enviada";
             $response->data["result"] = ["se registro respuesta" =>  $request->idReport];
         } catch (\Exception $ex) {
@@ -412,31 +417,37 @@ class ReportController extends Controller
 
     public function saveResponseSP_Movil(Request $request, Response $response)
     {
-
-
         $token = env('API_TOKEN');
         if ($request->token == $token) {
             $response->data = ObjResponse::DefaultResponse();
             $id = (int)$request->idReport;
             try {
-                $exiteRespuesta = ResponseR::where('id_reporte', $id)->first();
-                if ($exiteRespuesta) {
-                    $exiteRespuesta->delete();
+                $validarEvidencia = Report::find($id);
+                if ($validarEvidencia->img_attach_1 || $request->estatus == 2) {
+                    $exiteRespuesta = ResponseR::where('id_reporte', $id)->first();
+                    if ($exiteRespuesta) {
+                        $exiteRespuesta->delete();
+                    }
+                    $responseR = new ResponseR;
+                    $responseR->id_reporte = $request->idReport;
+                    $responseR->respuesta = $request->response;
+                    $responseR->fecha_respuesta = now();
+                    $responseR->save();
+
+                    $updateEstatus = Report::find($id);
+                    $updateEstatus->id_estatus = $request->estatus;
+                    $updateEstatus->save();
+
+                    $response->data = ObjResponse::CorrectResponse();
+                    $response->data["message"] = 'peticion satisfactoria';
+                    $response->data["alert_text"] = "Respuesta enviada";
+                    $response->data["result"] = ["se registro respuesta" =>  $request->idReport];
+                } else {
+                    $response->data = ObjResponse::CorrectResponse();
+                    $response->data["message"] = 'peticion satisfactoria';
+                    $response->data["alert_text"] = "TE FALTA EVIDENCIA PARA ESTA OPCION";
+                    $response->data["result"] = [];
                 }
-                $responseR = new ResponseR;
-                $responseR->id_reporte = $request->idReport;
-                $responseR->respuesta = $request->response;
-                $responseR->fecha_respuesta = now();
-                $responseR->save();
-
-                $updateEstatus = Report::find($id);
-                $updateEstatus->id_estatus = $request->estatus;
-                $updateEstatus->save();
-
-                $response->data = ObjResponse::CorrectResponse();
-                $response->data["message"] = 'peticion satisfactoria | usuario eliminado.';
-                $response->data["alert_text"] = "Respuesta enviada";
-                $response->data["result"] = ["se registro respuesta" =>  $request->idReport];
             } catch (\Exception $ex) {
                 $response->data = ObjResponse::CatchResponse($ex->getMessage());
             }
