@@ -9,6 +9,7 @@ use App\Models\GomezApp\ResponseR;
 use App\Models\ObjResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 class AtcAppController extends Controller
 {
@@ -150,13 +151,11 @@ class AtcAppController extends Controller
 
     public function saveAppReports(Request $request, Response $response)
     {
-
-
-        $request->validate([
-            'imgFile' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:10240', // máximo 10MB
-        ]);
-
-
+        // $request->validate([
+        //     'imgFile' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:10240', // máximo 10MB
+        // ]);
+        Log::info('Datos del Request:', $request->all());
+        Log::info('Archivos:', $request->file());
         $longitud_cadena = 5;
         $caracteres_alfabeticos = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $caracter_alfabetico = $caracteres_alfabeticos[mt_rand(0, strlen($caracteres_alfabeticos) - 1)];
@@ -166,14 +165,12 @@ class AtcAppController extends Controller
         $response->data = ObjResponse::DefaultResponse();
         try {
 
-
             $imgName = "";
             if ($request->hasFile('imgFile')) {
                 $image = $request->file('imgFile');
                 $imgName = time() . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('GomezApp/appEvidencias'), $imgName);
             }
-
 
             $dataLocation = json_decode($request->input('dataLocation'), true);
             // $dataLocation = $request->input('dataLocation');
