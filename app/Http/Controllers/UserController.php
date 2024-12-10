@@ -273,6 +273,12 @@ class UserController extends Controller
                'curp' => $request->curp,
                'updated' => date('Y-m-d H:i:s')
             ]);
+         if (strlen($request->password) > 0) {
+            $user->password = Hash::make($request->password);
+
+            DB::table('personal_access_tokens')->where('tokenable_id', $request->id)->delete(); #Utilizar delete() en caso de que el usuario desee cerrar sesión en todos lados o cambie informacion de su usuario / contraseña
+            // $message_change_psw = "Contraseña actualizada - todas tus sesiones se cerraran para aplicar cambios.";
+         }
 
 
          $response->data = ObjResponse::CorrectResponse();

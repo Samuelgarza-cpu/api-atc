@@ -167,6 +167,7 @@ class AtcAppController extends Controller
 
             $imgName = "";
             if ($request->hasFile('imgFile')) {
+                Log::info("si entra en el request->hasFile");
                 $image = $request->file('imgFile');
                 $imgName = time() . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('GomezApp/appEvidencias'), $imgName);
